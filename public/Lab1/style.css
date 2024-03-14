@@ -1,0 +1,211 @@
+body {
+    background-image: url("background.jpg");
+}
+
+/*title and subtitle styling*/
+h1,
+h2 {
+    background-color: black;
+    color: wheat;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*putting the tables and pictures in the desired position*/
+table {
+    float: right;
+    text-align: center;
+}
+
+th {
+    background-color: darkgray;
+    text-align: center;
+    text-decoration: underline;
+}
+
+td:nth-child(odd) {
+    background-color: gray;
+    color: red
+}
+
+td:nth-child(even) {
+    background-color: darkgray;
+    color: green
+}
+
+.img-with-text {
+    float: right;
+    text-align: center;
+}
+
+/*list styling for the alliance page*/
+.alliance ul {
+    list-style-position: inside;
+    list-style-type: "\1F468";
+    line-height: 30px;
+}
+
+.alliance li {
+    color: black;
+    font-weight: bold;
+}
+
+.alliance li a {
+    color: inherit;
+}
+
+.alliance li:nth-child(odd) {
+    background-color: #e4f0a1;
+}
+
+.alliance li:nth-child(even) {
+    background-color: #f5e689;
+}
+
+/*list styling for the horde page*/
+.horde ul {
+    list-style-position: inside;
+    list-style-type: "\1F47D";
+    line-height: 30px;
+}
+
+.horde li {
+    color: white;
+    font-weight: bold;
+}
+
+.horde li a {
+    color: inherit;
+}
+
+.horde li:nth-child(odd) {
+    background-color: red;
+}
+
+.horde li:nth-child(even) {
+    background-color: black;
+}
+
+/*using general style class to change <p> and <em> properties*/
+.general-style {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #0037b8;
+    font-size: 18px;
+    text-align: left;
+    text-decoration: none;
+}
+
+p,
+em {
+
+}
+
+/**/
+nav {
+    display:flex;
+}
+
+nav a {
+    margin: 2px;
+}
+
+nav div a {
+    border: 1px solid black;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+/**/
+.alliance-link {
+    color: blue;
+}
+
+.alliance-link:hover {
+    text-decoration: line-through;
+}
+
+.alliance-link:active {
+    color: black
+}
+
+.alliance-link:visited {
+    color: green
+}
+
+.horde-link {
+    color: red
+}
+
+.horde-link:hover {
+    text-decoration: overline
+}
+
+.horde-link:active {
+    color: black
+}
+
+.horde-link:visited {
+    color: violet
+}
+
+/*footer*/
+footer {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px dotted;
+    border-bottom-color: aqua;
+    border-left-color: pink;
+    border-top-color: #0037b8;
+    border-radius: 1000px;
+    color: darkorange;
+    padding-left: 15px;
+    padding-right: 1400px;
+    text-align: left;
+    font-family: cursive;
+    font-size: 20px;
+}
+
+/*podium*/
+.podium {
+    display: flex;
+}
+
+.second {
+    height: 150px;
+    width: 100px;
+    background-color: silver;
+    align-self: flex-end;
+    text-align: center;
+    transition: width 2s, height 2s
+}
+
+.second:hover {
+    height: 175px;
+    width: 125px;
+}
+
+.first {
+    height: 200px;
+    width: 100px;
+    background-color: gold;
+    text-align: center;
+    transition: width 2s, height 2s
+}
+
+.first:hover {
+    height: 250px;
+    width: 150px;
+}
+
+.third {
+    align-self: flex-end;
+    text-align: center;
+    height: 125px;
+    width: 100px;
+    background-color: brown;
+    transition: width 2s, height 2s
+}
+
+.third:hover {
+    height: 140px;
+    width: 110px;
+}
