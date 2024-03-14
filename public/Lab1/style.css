@@ -95,8 +95,12 @@ nav div a {
     text-decoration: line-through;
 }
 
-.alliance-link:active {
+.alliance-link:active:hover {
     color: black
+}
+
+.alliance-link:active {
+  color: black
 }
 
 .alliance-link:visited {
@@ -112,6 +116,10 @@ nav div a {
 }
 
 .horde-link:active {
+  color: black
+}
+
+.horde-link:active:hover {
     color: black
 }
 
