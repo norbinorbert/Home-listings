@@ -155,12 +155,22 @@ th {
   text-decoration: underline;
 }
 
-td:nth-child(odd) {
+tr:nth-child(even) td:nth-child(odd) {
   background-color: gray;
   color: red
 }
 
-td:nth-child(even) {
+tr:nth-child(even) td:nth-child(even) {
+  background-color: darkgray;
+  color: green
+}
+
+tr:nth-child(odd) td:nth-child(even) {
+  background-color: gray;
+  color: red
+}
+
+tr:nth-child(odd) td:nth-child(odd) {
   background-color: darkgray;
   color: green
 }
