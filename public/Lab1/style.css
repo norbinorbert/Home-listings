@@ -1,8 +1,9 @@
+/*Adding background*/
 body {
     background-image: url("background.jpg");
 }
 
-/*title and subtitle styling*/
+/*Title and subtitle styling*/
 h1,
 h2 {
     background-color: black;
@@ -10,34 +11,9 @@ h2 {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/*putting the tables and pictures in the desired position*/
-table {
-    float: right;
-    text-align: center;
-}
+/*2 different list stylings*/
 
-th {
-    background-color: darkgray;
-    text-align: center;
-    text-decoration: underline;
-}
-
-td:nth-child(odd) {
-    background-color: gray;
-    color: red
-}
-
-td:nth-child(even) {
-    background-color: darkgray;
-    color: green
-}
-
-.img-with-text {
-    float: right;
-    text-align: center;
-}
-
-/*list styling for the alliance page*/
+/*Alliance list*/
 .alliance ul {
     list-style-position: inside;
     list-style-type: "\1F468";
@@ -61,7 +37,7 @@ td:nth-child(even) {
     background-color: #f5e689;
 }
 
-/*list styling for the horde page*/
+/*Horde list*/
 .horde ul {
     list-style-position: inside;
     list-style-type: "\1F47D";
@@ -85,7 +61,7 @@ td:nth-child(even) {
     background-color: black;
 }
 
-/*using general style class to change <p> and <em> properties*/
+/*Using general style class to change <p> and <em> properties*/
 .general-style {
     background-color: rgba(255, 255, 255, 0.5);
     color: #0037b8;
@@ -94,12 +70,7 @@ td:nth-child(even) {
     text-decoration: none;
 }
 
-p,
-em {
-
-}
-
-/**/
+/*Styling a div inside a nav*/
 nav {
     display:flex;
 }
@@ -115,7 +86,7 @@ nav div a {
     font-size: 20px;
 }
 
-/**/
+/*2 different link types*/
 .alliance-link {
     color: blue;
 }
@@ -148,8 +119,8 @@ nav div a {
     color: violet
 }
 
-/*footer*/
-footer {
+/*Custom div style: dotted border, left aligned text, big right padding, different border colors*/
+.footer {
     background-color: rgba(0, 0, 0, 0.5);
     border: 2px dotted;
     border-bottom-color: aqua;
@@ -164,7 +135,33 @@ footer {
     font-size: 20px;
 }
 
-/*podium*/
+/*Table with pepita design*/
+table {
+  float: right;
+  text-align: center;
+}
+
+th {
+  background-color: darkgray;
+  text-decoration: underline;
+}
+
+td:nth-child(odd) {
+  background-color: gray;
+  color: red
+}
+
+td:nth-child(even) {
+  background-color: darkgray;
+  color: green
+}
+
+.img-with-text {
+  float: right;
+  text-align: center;
+}
+
+/*Animated podium*/
 .podium {
     display: flex;
 }
