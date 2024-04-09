@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Simple math problems</title>
+    <title>Math problems</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
   </head>
   <body>
     <form id="form">
       <label for="name">Name</label>
-      <input type="text" name="name" id="name" /><br />
+      <input type="text" name="name" id="name" required /><br />
 
       <input type="checkbox" name="addition" id="addition" />
       <label for="addition">+</label><br />
@@ -25,11 +25,11 @@
       <label for="division">/</label><br />
 
       <label for="number-of-problems">Number of problems to generate</label>
-      <input type="number" name="number-of-problems" id="number-of-problems" min="5" max="10" /><br /><br />
+      <input type="number" name="number-of-problems" id="number-of-problems" min="5" max="10" required /><br /><br />
 
       <button type="submit" id="submit">Start game</button><br />
 
-      <p id="asd"></p>
+      <canvas id="canvas" height="2000" width="500"></canvas>
       <script src="script.js"></script>
     </form>
   </body>
