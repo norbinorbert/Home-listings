@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Math problems</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-  </head>
-  <body>
-    <form id="form">
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name" required /><br />
 
-      <input type="checkbox" name="addition" id="addition" />
-      <label for="addition">+</label><br />
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Math problems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
 
-      <input type="checkbox" name="substraction" id="substraction" />
-      <label for="substraction">-</label><br />
+<body>
+  <form id="form">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" required><br>
 
-      <input type="checkbox" name="multiplication" id="multiplication" />
-      <label for="multiplication">*</label><br />
+    <input type="checkbox" name="addition" id="addition">
+    <label for="addition">+</label><br>
 
-      <input type="checkbox" name="division" id="division" />
-      <label for="division">/</label><br />
+    <input type="checkbox" name="substraction" id="substraction">
+    <label for="substraction">-</label><br>
 
-      <label for="number-of-problems">Number of problems to generate</label>
-      <input type="number" name="number-of-problems" id="number-of-problems" min="5" max="10" required /><br /><br />
+    <input type="checkbox" name="multiplication" id="multiplication">
+    <label for="multiplication">*</label><br>
 
-      <button type="submit" id="submit">Start game</button><br />
+    <input type="checkbox" name="division" id="division">
+    <label for="division">/</label><br>
 
-      <canvas id="canvas" height="600" width="500"></canvas>
-      <script src="script.js"></script>
-    </form>
-  </body>
+    <label for="number-of-problems">Number of problems to generate</label>
+    <input type="number" name="number-of-problems" id="number-of-problems" min="5" max="10" required><br><br>
+
+    <button type="submit" id="submit">Start game</button><br>
+
+    <canvas id="canvas" height="600" width="500"></canvas>
+    <script src="script.js"></script>
+  </form>
+</body>
+
 </html>
