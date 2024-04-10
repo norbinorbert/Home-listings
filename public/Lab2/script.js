@@ -46,7 +46,6 @@ function restartGame() {
   rectangleYCoordinates = [10];
   textYCoordinates = [40];
   problems = [];
-  answers = [];
   orderedAnswers = [];
   doneProblems = [];
   doneAnswers = [];
@@ -77,7 +76,7 @@ function startGame() {
   }
 
   // generate the problems and draw them in rectangles
-  const numberOfProblems = parseInt(document.getElementById('number-of-problems').value, '10');
+  const numberOfProblems = parseInt(document.getElementById('number-of-problems').value, 10);
   const drawnAnswers = [];
   const answers = [];
   for (let i = 0; i < numberOfProblems; i++) {
@@ -101,6 +100,8 @@ function startGame() {
         break;
       case '/':
         answer = (number1 / number2).toFixed(2);
+        break;
+      default:
         break;
     }
 
@@ -216,6 +217,83 @@ function checkIfGameEnd() {
   }
 }
 
+// when the user selects a problem it gets highlighted with a border
+function SelectProblem(i) {
+  // draw the border for the selected problem
+  canvasContent.strokeStyle = '#000000';
+  canvasContent.strokeRect(leftRectangleXCoordinate, rectangleYCoordinates[i], rectangleWidth, rectangleHeight);
+  isAProblemSelected = true;
+  doneProblems[i] = true;
+  lastClickedProblemIndex = i;
+}
+
+// when the user selects an answer, the problem gets redrawn and a line appears between the 2 selections
+function SelectAnswer(i) {
+  isAProblemSelected = false;
+  doneAnswers[i] = true;
+  lastClickedAnswerIndex = i;
+
+  // redrawing the problem rectangle without a border
+  canvasContent.clearRect(
+    leftRectangleXCoordinate - canvasContent.lineWidth,
+    rectangleYCoordinates[lastClickedProblemIndex] - canvasContent.lineWidth,
+    rectangleWidth + 2 * canvasContent.lineWidth,
+    rectangleHeight + 2 * canvasContent.lineWidth,
+  );
+
+  canvasContent.fillStyle = '#00FFFF';
+  canvasContent.fillRect(
+    leftRectangleXCoordinate,
+    rectangleYCoordinates[lastClickedProblemIndex],
+    rectangleWidth,
+    rectangleHeight,
+  );
+
+  canvasContent.fillStyle = '#000000';
+  canvasContent.fillText(
+    problems[lastClickedProblemIndex],
+    problemTextXCoordinate,
+    textYCoordinates[lastClickedProblemIndex],
+  );
+
+  // drawing a line from the problem to the answer
+  canvasContent.fillStyle = '#000000';
+  canvasContent.beginPath();
+  canvasContent.moveTo(
+    leftRectangleXCoordinate + rectangleWidth,
+    rectangleYCoordinates[lastClickedProblemIndex] + rectangleHeight / 2,
+  );
+  canvasContent.lineTo(rightRectangleXCoordinate, rectangleYCoordinates[lastClickedAnswerIndex] + rectangleHeight / 2);
+  canvasContent.stroke();
+}
+
+// evaluates if the pair given by the user is correct or not
+function EvaluateAnswerGiven() {
+  // evaluating the pair given
+  let evaluatedProblem = 0;
+  const splitArray = problems[lastClickedProblemIndex].split(' ');
+  const number1 = parseInt(splitArray[0], 10);
+  const operator = splitArray[1];
+  const number2 = parseInt(splitArray[2], 10);
+  switch (operator) {
+    case '+':
+      evaluatedProblem = (number1 + number2).toFixed(2);
+      break;
+    case '-':
+      evaluatedProblem = (number1 - number2).toFixed(2);
+      break;
+    case '*':
+      evaluatedProblem = (number1 * number2).toFixed(2);
+      break;
+    case '/':
+      evaluatedProblem = (number1 / number2).toFixed(2);
+      break;
+    default:
+      break;
+  }
+  return evaluatedProblem === orderedAnswers[lastClickedAnswerIndex];
+}
+
 // checks when the user clicks on the canvas
 // if they clicked a problem/answer, it will get selected
 canvas.addEventListener('click', (event) => {
@@ -231,81 +309,17 @@ canvas.addEventListener('click', (event) => {
         !doneProblems[i] &&
         isPointInsideRectangle(mouseX, mouseY, leftRectangleXCoordinate, rectangleYCoordinates[i])
       ) {
-        // draw the border for the selected problem
-        canvasContent.strokeStyle = '#000000';
-        canvasContent.strokeRect(leftRectangleXCoordinate, rectangleYCoordinates[i], rectangleWidth, rectangleHeight);
-        isAProblemSelected = true;
-        doneProblems[i] = true;
-        lastClickedProblemIndex = i;
+        SelectProblem(i);
         break;
       } else if (
         isAProblemSelected &&
         !doneAnswers[i] &&
         isPointInsideRectangle(mouseX, mouseY, rightRectangleXCoordinate, rectangleYCoordinates[i])
       ) {
-        isAProblemSelected = false;
-        doneAnswers[i] = true;
-        lastClickedAnswerIndex = i;
+        SelectAnswer(i);
 
-        // redrawing the problem rectangle without a border
-        canvasContent.clearRect(
-          leftRectangleXCoordinate - canvasContent.lineWidth,
-          rectangleYCoordinates[lastClickedProblemIndex] - canvasContent.lineWidth,
-          rectangleWidth + 2 * canvasContent.lineWidth,
-          rectangleHeight + 2 * canvasContent.lineWidth,
-        );
-
-        canvasContent.fillStyle = '#00FFFF';
-        canvasContent.fillRect(
-          leftRectangleXCoordinate,
-          rectangleYCoordinates[lastClickedProblemIndex],
-          rectangleWidth,
-          rectangleHeight,
-        );
-
-        canvasContent.fillStyle = '#000000';
-        canvasContent.fillText(
-          problems[lastClickedProblemIndex],
-          problemTextXCoordinate,
-          textYCoordinates[lastClickedProblemIndex],
-        );
-
-        // drawing a line from the problem to the answer
-        canvasContent.fillStyle = '#000000';
-        canvasContent.beginPath();
-        canvasContent.moveTo(
-          leftRectangleXCoordinate + rectangleWidth,
-          rectangleYCoordinates[lastClickedProblemIndex] + rectangleHeight / 2,
-        );
-        canvasContent.lineTo(
-          rightRectangleXCoordinate,
-          rectangleYCoordinates[lastClickedAnswerIndex] + rectangleHeight / 2,
-        );
-        canvasContent.stroke();
-
-        // evaluating the pair given
-        let evaluatedProblem = 0;
-        const splitArray = problems[lastClickedProblemIndex].split(' ');
-        const number1 = parseInt(splitArray[0], '10');
-        const operator = splitArray[1];
-        const number2 = parseInt(splitArray[2], '10');
-        switch (operator) {
-          case '+':
-            evaluatedProblem = (number1 + number2).toFixed(2);
-            break;
-          case '-':
-            evaluatedProblem = (number1 - number2).toFixed(2);
-            break;
-          case '*':
-            evaluatedProblem = (number1 * number2).toFixed(2);
-            break;
-          case '/':
-            evaluatedProblem = (number1 / number2).toFixed(2);
-            break;
-        }
-        const isCorrect = evaluatedProblem === orderedAnswers[lastClickedAnswerIndex];
         // storing the indexes for answer validation
-        linesDrawn.push([lastClickedProblemIndex, lastClickedAnswerIndex, isCorrect]);
+        linesDrawn.push([lastClickedProblemIndex, lastClickedAnswerIndex, EvaluateAnswerGiven()]);
         break;
       }
     }
