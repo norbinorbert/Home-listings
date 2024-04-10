@@ -49,6 +49,7 @@ function restartGame() {
   orderedAnswers = [];
   doneProblems = [];
   doneAnswers = [];
+  linesDrawn = [];
   lastClickedProblemIndex = -1;
   lastClickedAnswerIndex = -1;
 }
