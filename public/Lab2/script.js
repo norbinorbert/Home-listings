@@ -1,10 +1,10 @@
-//html elements
+// html elements
 const submitButton = document.getElementById('submit');
 const formElements = document.getElementsByTagName('input');
 const canvas = document.getElementById('canvas');
 const canvasContent = canvas.getContext('2d');
 
-//global constants
+// global constants
 const maxNumber = 100;
 const rectangleWidth = 100;
 const rectangleHeight = 50;
@@ -13,7 +13,7 @@ const rightRectangleXCoordinate = 150;
 const problemTextXCoordinate = 15;
 const answerTextXCoordinate = 180;
 
-//global arrays
+// global arrays
 let rectangleYCoordinates = [10];
 let textYCoordinates = [40];
 let problems = [];
@@ -23,99 +23,25 @@ let orderedAnswers = [];
 let doneAnswers = [];
 let lastClickedAnswerIndex = -1;
 let isAProblemSelected = false;
-let linesDrawn = [];
+const linesDrawn = [];
 
-//game starts when the "Start game" button is pressed
-function startGame() {
-  submitButton.textContent = 'Restart';
-
-  let checkboxSelected = false;
-  //check which operators were selected
-  let listOfOperators = [];
-  for (i = 0; i < formElements.length; i++) {
-    formElements[i].disabled = true;
-    if (formElements[i].type == 'checkbox' && formElements[i].checked) {
-      checkboxSelected = true;
-      listOfOperators.push(document.querySelector(`label[for="${formElements[i].id}"]`).textContent);
-    }
-  }
-
-  //if no operators were selected we restart the game
-  if (!checkboxSelected) {
-    window.alert('Please check at least one of the boxes');
-    restartGame();
-    return;
-  }
-
-  //generate the problems and draw them in rectangles
-  const numberOfProblems = parseInt(document.getElementById('number-of-problems').value);
-  let drawnAnswers = [];
-  let answers = [];
-  for (i = 0; i < numberOfProblems; i++) {
-    //generating the problem and calculating the answer
-    let number1 = Math.floor(Math.random() * maxNumber + 1);
-    let number2 = Math.floor(Math.random() * maxNumber + 1);
-    let operatorIndex = Math.floor(Math.random() * listOfOperators.length);
-    let operator = listOfOperators[operatorIndex];
-    let problem = `${number1} ${operator} ${number2}`;
-    let answer = eval(problem).toFixed(2);
-    canvasContent.font = '20px Times New Roman';
-    problems.push(problem);
-    answers.push(answer);
-
-    //drawing the problems in rectangles
-    canvasContent.fillStyle = '#00FFFF';
-    canvasContent.fillRect(leftRectangleXCoordinate, rectangleYCoordinates[i], rectangleWidth, rectangleHeight);
-    canvasContent.fillStyle = '#000000';
-    canvasContent.fillText(problems[i], problemTextXCoordinate, textYCoordinates[i]);
-
-    //some helper arrays needed for later
-    rectangleYCoordinates.push(rectangleYCoordinates[i] + rectangleHeight + 5);
-    textYCoordinates.push(textYCoordinates[i] + rectangleHeight + 5);
-    drawnAnswers.push(false);
-    doneProblems.push(false);
-    doneAnswers.push(false);
-  }
-
-  //draw the answers in random order
-  for (i = 0; i < numberOfProblems; i++) {
-    //generating a random index until we get an answer not yet displayed
-    let answerIndex = Math.floor(Math.random() * answers.length);
-    while (drawnAnswers[answerIndex]) {
-      answerIndex = Math.floor(Math.random() * answers.length);
-    }
-    drawnAnswers[answerIndex] = true;
-    orderedAnswers.push(answers[answerIndex]);
-
-    //drawing the answers in rectangles
-    canvasContent.fillStyle = '#00FFFF';
-    canvasContent.fillRect(rightRectangleXCoordinate, rectangleYCoordinates[i], rectangleWidth, rectangleHeight);
-    canvasContent.fillStyle = '#000000';
-    canvasContent.fillText(answers[answerIndex], answerTextXCoordinate, textYCoordinates[i]);
-  }
-
-  //we will have 1 extra coordinate at the end, remove it
-  rectangleYCoordinates.pop();
-  textYCoordinates.pop();
-}
-
-//game restarts when the "Restart" button is pressed
+// game restarts when the "Restart" button is pressed
 function restartGame() {
   submitButton.textContent = 'Start game';
 
-  //clear every input
-  for (i = 0; i < formElements.length; i++) {
+  // clear every input
+  for (let i = 0; i < formElements.length; i++) {
     formElements[i].disabled = false;
-    if (formElements[i].type == 'checkbox') {
+    if (formElements[i].type === 'checkbox') {
       formElements[i].checked = false;
     } else {
       formElements[i].value = null;
     }
   }
-  //clear canvas
+  // clear canvas
   canvasContent.clearRect(0, 0, canvas.width, canvas.height);
 
-  //reset arrays and variables to their default values
+  // reset arrays and variables to their default values
   isAProblemSelected = false;
   rectangleYCoordinates = [10];
   textYCoordinates = [40];
@@ -128,9 +54,99 @@ function restartGame() {
   lastClickedAnswerIndex = -1;
 }
 
-//checks when the submit button is pressed
+// game starts when the "Start game" button is pressed
+function startGame() {
+  submitButton.textContent = 'Restart';
+
+  let checkboxSelected = false;
+  // check which operators were selected
+  const listOfOperators = [];
+  for (let i = 0; i < formElements.length; i++) {
+    formElements[i].disabled = true;
+    if (formElements[i].type === 'checkbox' && formElements[i].checked) {
+      checkboxSelected = true;
+      listOfOperators.push(document.querySelector(`label[for="${formElements[i].id}"]`).textContent);
+    }
+  }
+
+  // if no operators were selected we restart the game
+  if (!checkboxSelected) {
+    window.alert('Please check at least one of the boxes');
+    restartGame();
+    return;
+  }
+
+  // generate the problems and draw them in rectangles
+  const numberOfProblems = parseInt(document.getElementById('number-of-problems').value, '10');
+  const drawnAnswers = [];
+  const answers = [];
+  for (let i = 0; i < numberOfProblems; i++) {
+    // generating the problem and calculating the answer
+    const number1 = Math.floor(Math.random() * maxNumber + 1);
+    const number2 = Math.floor(Math.random() * maxNumber + 1);
+    const operatorIndex = Math.floor(Math.random() * listOfOperators.length);
+    const operator = listOfOperators[operatorIndex];
+    const problem = `${number1} ${operator} ${number2}`;
+
+    let answer = 0;
+    switch (operator) {
+      case '+':
+        answer = (number1 + number2).toFixed(2);
+        break;
+      case '-':
+        answer = (number1 - number2).toFixed(2);
+        break;
+      case '*':
+        answer = (number1 * number2).toFixed(2);
+        break;
+      case '/':
+        answer = (number1 / number2).toFixed(2);
+        break;
+    }
+
+    canvasContent.font = '20px Times New Roman';
+    problems.push(problem);
+    answers.push(answer);
+
+    // drawing the problems in rectangles
+    canvasContent.fillStyle = '#00FFFF';
+    canvasContent.fillRect(leftRectangleXCoordinate, rectangleYCoordinates[i], rectangleWidth, rectangleHeight);
+    canvasContent.fillStyle = '#000000';
+    canvasContent.fillText(problems[i], problemTextXCoordinate, textYCoordinates[i]);
+
+    // some helper arrays needed for later
+    rectangleYCoordinates.push(rectangleYCoordinates[i] + rectangleHeight + 5);
+    textYCoordinates.push(textYCoordinates[i] + rectangleHeight + 5);
+    drawnAnswers.push(false);
+    doneProblems.push(false);
+    doneAnswers.push(false);
+  }
+
+  // draw the answers in random order
+  for (let i = 0; i < numberOfProblems; i++) {
+    // generating a random index until we get an answer not yet displayed
+    let answerIndex = Math.floor(Math.random() * answers.length);
+    while (drawnAnswers[answerIndex]) {
+      answerIndex = Math.floor(Math.random() * answers.length);
+    }
+    drawnAnswers[answerIndex] = true;
+    orderedAnswers.push(answers[answerIndex]);
+
+    // drawing the answers in rectangles
+    canvasContent.fillStyle = '#00FFFF';
+    canvasContent.fillRect(rightRectangleXCoordinate, rectangleYCoordinates[i], rectangleWidth, rectangleHeight);
+    canvasContent.fillStyle = '#000000';
+    canvasContent.fillText(answers[answerIndex], answerTextXCoordinate, textYCoordinates[i]);
+  }
+
+  // we will have 1 extra coordinate at the end, remove it
+  rectangleYCoordinates.pop();
+  textYCoordinates.pop();
+}
+
+// checks when the submit button is pressed
 document.getElementById('form').addEventListener('submit', (event) => {
-  if (submitButton.textContent == 'Start game') {
+  if (submitButton.textContent === 'Start game') {
     startGame();
   } else {
     restartGame();
@@ -138,7 +154,7 @@ document.getElementById('form').addEventListener('submit', (event) => {
   event.preventDefault();
 });
 
-//checks if a point is inside a rectangle
+// checks if a point is inside a rectangle
 function isPointInsideRectangle(pointX, pointY, rectangleX, rectangleY) {
   return (
     rectangleX <= pointX &&
@@ -149,23 +165,23 @@ function isPointInsideRectangle(pointX, pointY, rectangleX, rectangleY) {
 }
 
 function checkIfGameEnd() {
-  //game ends when all problems were paired with an answer
-  for (i = 0; i < doneAnswers.length; i++) {
+  // game ends when all problems were paired with an answer
+  for (let i = 0; i < doneAnswers.length; i++) {
     if (!doneAnswers[i]) {
       return;
     }
   }
 
-  //validating the answers given
-  for (i = 0; i < linesDrawn.length; i++) {
+  // validating the answers given
+  for (let i = 0; i < linesDrawn.length; i++) {
     if (linesDrawn[i][2]) {
-      //green if correct
+      // green if correct
       canvasContent.fillStyle = '#00FF00';
     } else {
-      //red if incorrect
+      // red if incorrect
       canvasContent.fillStyle = '#FF0000';
     }
-    //clear the old content
+    // clear the old content
     canvasContent.clearRect(
       leftRectangleXCoordinate - canvasContent.lineWidth,
       rectangleYCoordinates[linesDrawn[i][0]] - canvasContent.lineWidth,
@@ -179,7 +195,7 @@ function checkIfGameEnd() {
       rectangleHeight + 2 * canvasContent.lineWidth,
     );
 
-    //draw the new colored rectangles
+    // draw the new colored rectangles
     canvasContent.fillRect(
       leftRectangleXCoordinate,
       rectangleYCoordinates[linesDrawn[i][0]],
@@ -193,29 +209,29 @@ function checkIfGameEnd() {
       rectangleHeight,
     );
 
-    //add the text to them
+    // add the text to them
     canvasContent.fillStyle = '#000000';
     canvasContent.fillText(problems[linesDrawn[i][0]], problemTextXCoordinate, textYCoordinates[linesDrawn[i][0]]);
     canvasContent.fillText(orderedAnswers[linesDrawn[i][1]], answerTextXCoordinate, textYCoordinates[linesDrawn[i][1]]);
   }
 }
 
-//checks when the user clicks on the canvas
-//if they clicked a problem/answer, it will get selected
+// checks when the user clicks on the canvas
+// if they clicked a problem/answer, it will get selected
 canvas.addEventListener('click', (event) => {
-  //only draw if game has started
-  if (submitButton.textContent == 'Restart') {
-    let canvasBounds = canvas.getBoundingClientRect();
-    let mouseX = event.clientX - canvasBounds.left;
-    let mouseY = event.clientY - canvasBounds.top;
-    for (i = 0; i < rectangleYCoordinates.length; i++) {
-      //first the user needs to click on a problem, then an answer
+  // only draw if game has started
+  if (submitButton.textContent === 'Restart') {
+    const canvasBounds = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - canvasBounds.left;
+    const mouseY = event.clientY - canvasBounds.top;
+    for (let i = 0; i < rectangleYCoordinates.length; i++) {
+      // first the user needs to click on a problem, then an answer
       if (
         !isAProblemSelected &&
         !doneProblems[i] &&
         isPointInsideRectangle(mouseX, mouseY, leftRectangleXCoordinate, rectangleYCoordinates[i])
       ) {
-        //draw the border for the selected problem
+        // draw the border for the selected problem
         canvasContent.strokeStyle = '#000000';
         canvasContent.strokeRect(leftRectangleXCoordinate, rectangleYCoordinates[i], rectangleWidth, rectangleHeight);
         isAProblemSelected = true;
@@ -231,7 +247,7 @@ canvas.addEventListener('click', (event) => {
         doneAnswers[i] = true;
         lastClickedAnswerIndex = i;
 
-        //redrawing the problem rectangle without a border
+        // redrawing the problem rectangle without a border
         canvasContent.clearRect(
           leftRectangleXCoordinate - canvasContent.lineWidth,
           rectangleYCoordinates[lastClickedProblemIndex] - canvasContent.lineWidth,
@@ -254,7 +270,7 @@ canvas.addEventListener('click', (event) => {
           textYCoordinates[lastClickedProblemIndex],
         );
 
-        //drawing a line from the problem to the answer
+        // drawing a line from the problem to the answer
         canvasContent.fillStyle = '#000000';
         canvasContent.beginPath();
         canvasContent.moveTo(
@@ -267,8 +283,28 @@ canvas.addEventListener('click', (event) => {
         );
         canvasContent.stroke();
 
-        //storing the indexes for answer validation
-        let isCorrect = eval(problems[lastClickedProblemIndex]).toFixed(2) == orderedAnswers[lastClickedAnswerIndex];
+        // evaluating the pair given
+        let evaluatedProblem = 0;
+        const splitArray = problems[lastClickedProblemIndex].split(' ');
+        const number1 = parseInt(splitArray[0], '10');
+        const operator = splitArray[1];
+        const number2 = parseInt(splitArray[2], '10');
+        switch (operator) {
+          case '+':
+            evaluatedProblem = (number1 + number2).toFixed(2);
+            break;
+          case '-':
+            evaluatedProblem = (number1 - number2).toFixed(2);
+            break;
+          case '*':
+            evaluatedProblem = (number1 * number2).toFixed(2);
+            break;
+          case '/':
+            evaluatedProblem = (number1 / number2).toFixed(2);
+            break;
+        }
+        const isCorrect = evaluatedProblem === orderedAnswers[lastClickedAnswerIndex];
+        // storing the indexes for answer validation
         linesDrawn.push([lastClickedProblemIndex, lastClickedAnswerIndex, isCorrect]);
         break;
       }
