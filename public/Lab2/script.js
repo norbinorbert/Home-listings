@@ -23,7 +23,7 @@ let orderedAnswers = [];
 let doneAnswers = [];
 let lastClickedAnswerIndex = -1;
 let isAProblemSelected = false;
-const linesDrawn = [];
+let linesDrawn = [];
 
 // game restarts when the "Restart" button is pressed
 function restartGame() {
