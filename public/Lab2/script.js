@@ -6,12 +6,12 @@ const canvasContent = canvas.getContext('2d');
 
 // global constants
 const maxNumber = 100;
-const rectangleWidth = 100;
+const rectangleWidth = 115;
 const rectangleHeight = 50;
-const leftRectangleXCoordinate = 0;
-const rightRectangleXCoordinate = 150;
-const problemTextXCoordinate = 15;
-const answerTextXCoordinate = 180;
+const leftRectangleXCoordinate = canvas.width / 2 - 1.5 * rectangleWidth;
+const rightRectangleXCoordinate = canvas.width / 2 + 0.5 * rectangleWidth;
+const problemTextXCoordinate = leftRectangleXCoordinate + 25;
+const answerTextXCoordinate = rightRectangleXCoordinate + 25;
 
 // global arrays
 let rectangleYCoordinates = [10];
@@ -106,7 +106,7 @@ function startGame() {
         break;
     }
 
-    canvasContent.font = '20px Times New Roman';
+    canvasContent.font = '20px Arial';
     problems.push(problem);
     answers.push(answer);
 
