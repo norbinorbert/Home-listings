@@ -1,0 +1,148 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+header {
+  background-color: black;
+}
+
+nav {
+  background-color: black;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  border-bottom: 1px solid grey;
+  padding-bottom: 5px;
+}
+
+nav div {
+  background-color: black;
+}
+
+nav a {
+  margin: 2px;
+}
+
+.header1 > a {
+  color: grey;
+  text-decoration: none;
+}
+
+.header1 > a:visited {
+  color: grey;
+}
+
+.header1 > a:hover {
+  color: white;
+}
+
+.black-button {
+  padding: 5px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+}
+
+.white-button {
+  padding: 5px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  color: black;
+  background-color: white;
+  text-decoration: none;
+}
+
+p {
+  color: grey;
+  font-size: 18px;
+}
+
+p > b {
+  color: white;
+}
+
+.section1,
+.section2,
+.section3,
+.section4,
+.section5,
+.section6 {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.section1 {
+  padding-top: 30px;
+}
+
+.section1 p {
+  align-self: center;
+  max-width: 600px;
+  text-align: center;
+  margin: auto;
+}
+
+.section1-links {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+.section2 {
+  width: 100%;
+  display: flex;
+}
+.section2 a {
+  border-radius: 10px;
+  border: 1px solid grey;
+  padding: 5px;
+  text-decoration: none;
+  display: grid;
+}
+
+.section2 a h3 {
+  color: white;
+}
+
+.section2 p {
+  margin-left: 10px;
+}
+
+.section4 img {
+  float: right;
+}
+
+@media screen and (max-width: 1200px) {
+  .section2 {
+    display: inline;
+  }
+}
+
+.reviews {
+  display: flex;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.reviews p {
+  border: 2px solid grey;
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+}
+
+footer {
+  display: flex;
+}
+
+footer div {
+  margin-left: 10px;
+  margin-right: 10px;
+}
