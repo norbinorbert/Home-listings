@@ -1,8 +1,8 @@
 // html elements and variables that need them
-let submitButton = undefined;
-let formElements = undefined;
-let canvas = undefined;
-let canvasContent = undefined;
+let submitButton = null;
+let formElements = null;
+let canvas = null;
+let canvasContent = null;
 let leftRectangleXCoordinate = 0;
 let rightRectangleXCoordinate = 0;
 let problemTextXCoordinate = leftRectangleXCoordinate + 25;
