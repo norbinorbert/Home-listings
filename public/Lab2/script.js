@@ -1,12 +1,12 @@
 // html elements and variables that need them
-let submitButton = null;
-let formElements = null;
-let canvas = null;
-let canvasContent = null;
-let leftRectangleXCoordinate = 0;
-let rightRectangleXCoordinate = 0;
-let problemTextXCoordinate = leftRectangleXCoordinate + 25;
-let answerTextXCoordinate = rightRectangleXCoordinate + 25;
+let submitButton;
+let formElements;
+let canvas;
+let canvasContent;
+let leftRectangleXCoordinate;
+let rightRectangleXCoordinate;
+let problemTextXCoordinate;
+let answerTextXCoordinate;
 
 // global constants
 const maxNumber = 100;
