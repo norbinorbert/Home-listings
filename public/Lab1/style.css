@@ -1,6 +1,6 @@
 /*Adding background*/
 body {
-  background-image: url("background.jpg");
+  background-image: url('background.jpg');
 }
 
 /*Title and subtitle styling*/
@@ -15,50 +15,50 @@ h2 {
 /*2 different list stylings*/
 
 /*Alliance list in alliance.html*/
-.alliance ul {
+ul.alliance {
   list-style-position: inside;
-  list-style-type: "\1F468";
+  list-style-type: '\1F468';
   line-height: 30px;
 }
 
-.alliance li {
+ul.alliance li {
   color: black;
   font-weight: bold;
 }
 
-.alliance li a {
+ul.alliance li a {
   color: inherit;
 }
 
-.alliance li:nth-child(odd) {
+ul.alliance li:nth-child(odd) {
   background-color: #e4f0a1;
 }
 
-.alliance li:nth-child(even) {
+ul.alliance li:nth-child(even) {
   background-color: #f5e689;
 }
 
 /*Horde list in horde.html*/
-.horde ul {
+ul.horde {
   list-style-position: inside;
-  list-style-type: "\1F47D";
+  list-style-type: '\1F47D';
   line-height: 30px;
 }
 
-.horde li {
+ul.horde li {
   color: white;
   font-weight: bold;
 }
 
-.horde li a {
+ul.horde li a {
   color: inherit;
 }
 
-.horde li:nth-child(odd) {
+ul.horde li:nth-child(odd) {
   background-color: red;
 }
 
-.horde li:nth-child(even) {
+ul.horde li:nth-child(even) {
   background-color: black;
 }
 
@@ -96,35 +96,35 @@ nav div {
 }
 
 .alliance-link:active:hover {
-  color: black
+  color: black;
 }
 
 .alliance-link:active {
-  color: black
+  color: black;
 }
 
 .alliance-link:visited {
-  color: green
+  color: green;
 }
 
 .horde-link {
-  color: red
+  color: red;
 }
 
 .horde-link:hover {
-  text-decoration: overline
+  text-decoration: overline;
 }
 
 .horde-link:active {
-  color: black
+  color: black;
 }
 
 .horde-link:active:hover {
-  color: black
+  color: black;
 }
 
 .horde-link:visited {
-  color: violet
+  color: violet;
 }
 
 /*Custom div style: dotted border, left aligned text, big right padding, different border colors. Used on every footer*/
@@ -156,22 +156,22 @@ th {
 
 tr:nth-child(even) td:nth-child(odd) {
   background-color: gray;
-  color: red
+  color: red;
 }
 
 tr:nth-child(even) td:nth-child(even) {
   background-color: darkgray;
-  color: green
+  color: green;
 }
 
 tr:nth-child(odd) td:nth-child(even) {
   background-color: gray;
-  color: red
+  color: red;
 }
 
 tr:nth-child(odd) td:nth-child(odd) {
   background-color: darkgray;
-  color: green
+  color: green;
 }
 
 .img-with-text {
@@ -190,7 +190,7 @@ tr:nth-child(odd) td:nth-child(odd) {
   background-color: silver;
   align-self: flex-end;
   text-align: center;
-  transition: width 2s, height 2s
+  transition: width 2s, height 2s;
 }
 
 .second:hover {
@@ -203,7 +203,7 @@ tr:nth-child(odd) td:nth-child(odd) {
   width: 100px;
   background-color: gold;
   text-align: center;
-  transition: width 2s, height 2s
+  transition: width 2s, height 2s;
 }
 
 .first:hover {
@@ -217,7 +217,7 @@ tr:nth-child(odd) td:nth-child(odd) {
   height: 125px;
   width: 100px;
   background-color: brown;
-  transition: width 2s, height 2s
+  transition: width 2s, height 2s;
 }
 
 .third:hover {
