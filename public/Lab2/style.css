@@ -1,0 +1,35 @@
+body {
+  display: grid;
+  justify-content: center;
+  background-color: burlywood;
+  font-size: 20px;
+}
+
+h1 {
+  text-align: center;
+  text-decoration: underline;
+  margin: 5px;
+}
+
+form {
+  display: grid;
+  align-items: center;
+  text-align: center;
+}
+
+.name-input,
+.checkboxes-input,
+.number-of-problems-input {
+  padding: 2px 0px 2px 0px;
+}
+
+.checkboxes-input {
+  display: flex;
+  justify-content: center;
+}
+
+.checkboxes-input > label {
+  margin-left: 2px;
+  margin-right: 20px;
+  font-size: 20px;
+}
