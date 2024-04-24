@@ -1,3 +1,23 @@
-h1 {
-  color: gray;
+body {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  background-color: burlywood;
+  font-size: 20px;
+}
+
+form {
+  display: grid;
+  align-items: center;
+  text-align: center;
+}
+
+div {
+  padding: 2px 0px 2px 0px;
+}
+
+label {
+  margin-left: 2px;
+  margin-right: 10px;
+  font-size: 20px;
 }
