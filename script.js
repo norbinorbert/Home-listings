@@ -118,10 +118,41 @@ app.post('/upload_photo', (req, res) => {
   });
 });
 
+// check if the listing matches the search criteria
+function doesListingMeetRequirements(req, listing) {
+  if (listing.city === req.city) {
+    if (req.district && listing.district !== req.district) {
+      return false;
+    }
+    if (req['min-price'] && listing.price < parseFloat(req['min-price'])) {
+      return false;
+    }
+    if (req['max-price'] && listing.price > parseFloat(req['max-price'])) {
+      return false;
+    }
+    return true;
+  }
+  return false;
+}
+
 // check if any listings match the search criteria and list them
 app.get('/search', express.urlencoded(), (req, res) => {
-  if (!(req.body.city && req.body.district)) {
+  if (!req.query.city) {
+    console.log('Search request failed because city was not provided');
     res.status(400).send('Please provide a city');
+    return;
+  }
+  const searchResults = [];
+  for (let i = 0; i < listings.length; i++) {
+    if (doesListingMeetRequirements(req.query, listings[i])) {
+      searchResults.push(listings[i]);
+    }
+  }
+  console.log('A search was completed');
+  if (searchResults.length !== 0) {
+    res.send(searchResults);
+  } else {
+    res.send('No listings match the search criteria');
   }
 });
 
