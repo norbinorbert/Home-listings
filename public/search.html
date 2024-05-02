@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+    <title>Search</title>
+</head>
+
+<body>
+    <div>
+        <a href="index.html">Start page</a>
+    </div>
+    <div>
+        <form action="/search">
+            <div>
+                <label for="city">City</label>
+                <input type="text" name="city" id="city" required>
+                <label for="district">City District</label>
+                <input type="text" name="district" id="district">
+            </div>
+            <div>
+                <label for="min-price">Minimum price</label>
+                <input type="number" name="min-price" id="min-price" step="0.01" min="0.01">
+                <label for="max-price">Maximum price</label>
+                <input type="number" name="max-price" id="max-price" step="0.01" min="0.01">
+            </div>
+            <div>
+                <button type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <p></p>
+    </div>
+</body>
+
+</html>
