@@ -1,12 +1,19 @@
 import pool from './db_setup.js';
 
+// usually used to check if listing exists
 export const getListingsByID = (listingID) => {
   const query = 'SELECT * FROM Listings WHERE ListingID = ?';
   return pool.query(query, [listingID]);
 };
 
+// get all listings in case no filtering is done
+export const getListings = () => {
+  const query = 'SELECT * FROM Listings';
+  return pool.query(query);
+};
+
 // used for filtering listings
-export const getListingWithParameters = (req) => {
+export const getListingWithFilters = (req) => {
   const query = `SELECT * FROM Listings 
                 WHERE City = ? 
                 AND (? IS NULL OR District = ?) 

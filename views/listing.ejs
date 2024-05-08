@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs', { title: 'Listing' }) %>
+
+    <body>
+        <%- include('partials/navbar.ejs') %>
+
+            <form action="/upload_photo" method="post" enctype="multipart/form-data">
+                <div>
+                    <label for="listing-id">Listing id</label>
+                    <input type="number" name="listing-id" id="listing-id" required>
+                </div>
+                <div>
+                    <label for="image-for-listing">Image for listing</label>
+                    <input type="file" name="image-for-listing" id="image-for-listing" required>
+                </div>
+                <div>
+                    <button type="submit">Upload image</button>
+                </div>
+            </form>
+    </body>
+
+</html>
