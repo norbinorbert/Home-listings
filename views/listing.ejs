@@ -5,19 +5,50 @@
     <body>
         <%- include('partials/navbar.ejs') %>
 
-            <form action="/upload_photo" method="post" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <th>City</th>
+                    <th>District</th>
+                    <th>Area (m<sup>2</sup>)</th>
+                    <th>Rooms</th>
+                    <th>Price ($)</th>
+                    <th>For sale since</th>
+                </tr>
+                <tr>
+                    <td>
+                        <%= listing.City %>
+                    </td>
+                    <td>
+                        <%= listing.District %>
+                    </td>
+                    <td>
+                        <%= listing.Area %>
+                    </td>
+                    <td>
+                        <%= listing.Rooms %>
+                    </td>
+                    <td>
+                        <%= listing.Price %>
+                    </td>
+                    <td>
+                        <%= listing.Date %>
+                    </td>
+                </tr>
+            </table>
+            <% pictures.forEach((picture)=> { %>
                 <div>
-                    <label for="listing-id">Listing id</label>
-                    <input type="number" name="listing-id" id="listing-id" required>
+                    <img src="/Pictures/<%= picture.picture %>" alt="public/Pictures/c4da6c53e48e327c6e63d2de96b02c70">
                 </div>
-                <div>
-                    <label for="image-for-listing">Image for listing</label>
-                    <input type="file" name="image-for-listing" id="image-for-listing" required>
-                </div>
-                <div>
-                    <button type="submit">Upload image</button>
-                </div>
-            </form>
+                <% }); %>
+                    <form action="/upload_photo/<%=listing.ListingID%>" method="post" enctype="multipart/form-data">
+                        <div>
+                            <label for="image-for-listing">Upload image</label>
+                            <input type="file" name="image-for-listing" id="image-for-listing" required>
+                        </div>
+                        <div>
+                            <button type="submit">Upload image</button>
+                        </div>
+                    </form>
     </body>
 
 </html>

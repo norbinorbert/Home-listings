@@ -1,7 +1,7 @@
 import pool from './db_setup.js';
 
-// usually used to check if listing exists
-export const getListingsByID = (listingID) => {
+// used to check if listing exists or displaying single listing
+export const getListingByID = (listingID) => {
   const query = 'SELECT * FROM Listings WHERE ListingID = ?';
   return pool.query(query, [listingID]);
 };

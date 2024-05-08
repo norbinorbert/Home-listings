@@ -7,19 +7,13 @@ import * as dbListings from '../db/db_listings.js';
 const router = express.Router();
 
 // make a directory where we will upload the images
-const uploadDir = './Resources';
+const uploadDir = './public/Pictures';
 if (!existsSync(uploadDir)) {
   mkdirSync(uploadDir);
 }
 
 // check if file is in right format and check if ID is correct
 async function filter(req, file, cb) {
-  // no ID provided
-  if (!req.body['listing-id']) {
-    const err = new Error('No ID provided');
-    err.name = 'NoID';
-    return cb(err);
-  }
   // bad file type
   if (file.mimetype !== 'image/png' && file.mimetype !== 'image/jpeg') {
     const err = new Error('Invalid mime type');
@@ -27,7 +21,8 @@ async function filter(req, file, cb) {
     return cb(err);
   }
   // listing doesn't exist
-  const [listing] = await dbListings.getListingsByID(parseInt(req.body['listing-id'], 10));
+  const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
+  const [listing] = await dbListings.getListingByID(listingID);
   if (listing.length === 0) {
     const err = new Error("Listing doesn't exist");
     err.name = 'BadID';
@@ -47,30 +42,31 @@ const multerUpload = multer({
 const image = multerUpload.single('image-for-listing');
 
 // check if there were any errors when loading the file, then upload photo
-router.post('/upload_photo', (req, res) => {
+router.post('/upload_photo/[0-9]*', (req, res) => {
   image(req, res, async (err) => {
     if (err) {
       console.log('New photo was tried to be uploaded, but data was invalid');
       switch (err.name) {
         case 'BadMime': {
-          res.status(400).send('Please only upload png or jpeg images');
-          return;
-        }
-        case 'NoID': {
-          res.status(400).send('Please provide a listing ID');
+          res.status(400).render('error', { message: 'Please only upload png or jpeg images' });
           return;
         }
         case 'BadID': {
-          res.status(404).send("Listing doesn't exist");
+          res.status(404).render('error', { message: "Listing doesn't exist" });
           return;
         }
         default:
       }
     }
-    const listingID = parseInt(req.body['listing-id'], 10);
+    const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
     await dbPictures.addPictureToListing(listingID, req.file.filename);
     console.log(`Successfully uploaded image for listing with ID = ${listingID}`);
-    res.redirect('/');
+
+    // after uploading, redirect to the listings page
+    const [listings] = await dbListings.getListingByID(listingID);
+    const listing = listings[0];
+    const [pictures] = await dbPictures.getPicturesByListingID(listingID);
+    res.render('listing', { listing, pictures });
   });
 });
 
