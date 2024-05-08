@@ -2,7 +2,9 @@ import express from 'express';
 import morgan from 'morgan';
 import { existsSync, mkdirSync } from 'fs';
 import multer from 'multer';
+import pool from './db/db_setup.js';
 
+console.log(pool);
 let listingID = 0;
 const listings = [];
 const app = express();
@@ -25,7 +27,7 @@ function isInvalidListing(req) {
 }
 
 // check if form data is correct, then save it
-app.post('/new_listing', express.urlencoded(), (req, res) => {
+app.post('/new_listing', express.urlencoded({ extended: true }), (req, res) => {
   if (isInvalidListing(req.body)) {
     console.log('New listing was tried to be inserted, but data was invalid');
     res.status(400).send('Incorrect input data');
@@ -136,7 +138,7 @@ function doesListingMeetRequirements(req, listing) {
 }
 
 // check if any listings match the search criteria and list them
-app.get('/search', express.urlencoded(), (req, res) => {
+app.get('/search', express.urlencoded({ extended: true }), (req, res) => {
   if (!req.query.city) {
     console.log('Search request failed because city was not provided');
     res.status(400).send('Please provide a city');
