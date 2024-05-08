@@ -102,7 +102,7 @@ app.post('/upload_photo', (req, res) => {
           return;
         }
         case 'BadID': {
-          res.status(400).send("Listing doesn't exist");
+          res.status(404).send("Listing doesn't exist");
           return;
         }
         default:
@@ -142,12 +142,7 @@ app.get('/search', express.urlencoded(), (req, res) => {
     res.status(400).send('Please provide a city');
     return;
   }
-  const searchResults = [];
-  for (let i = 0; i < listings.length; i++) {
-    if (doesListingMeetRequirements(req.query, listings[i])) {
-      searchResults.push(listings[i]);
-    }
-  }
+  const searchResults = listings.filter((listing) => doesListingMeetRequirements(req.query, listing));
   console.log('A search was completed');
   if (searchResults.length !== 0) {
     res.send(searchResults);
