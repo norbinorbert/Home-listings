@@ -15,10 +15,13 @@ export const getListings = () => {
 // used for filtering listings
 export const getListingWithFilters = (req) => {
   const query = `SELECT * FROM Listings 
-                WHERE City = ? 
+                WHERE (? IS NULL OR City = ?) 
                 AND (? IS NULL OR District = ?) 
                 AND (? IS NULL OR Price >= ?) 
                 AND (? IS NULL OR Price <= ?)`;
+  if (!req.city) {
+    req.city = null;
+  }
   if (!req.district) {
     req.district = null;
   }
@@ -29,6 +32,7 @@ export const getListingWithFilters = (req) => {
     req['max-price'] = null;
   }
   return pool.query(query, [
+    req.city,
     req.city,
     req.district,
     req.district,

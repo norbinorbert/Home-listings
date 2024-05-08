@@ -18,9 +18,9 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 // routers
-app.use(newListingRouter);
-app.use(listingsRouter);
-app.use(picturesRouter);
+app.use('/', newListingRouter);
+app.use('/', listingsRouter);
+app.use('/', picturesRouter);
 
 // error handler
 app.use(errorMiddleware);

@@ -4,11 +4,10 @@
 
     <body>
         <%- include('partials/navbar.ejs') %>
-
             <form action="/search">
                 <div>
                     <label for="city">City</label>
-                    <input type="text" name="city" id="city" required>
+                    <input type="text" name="city" id="city">
                     <label for="district">City District</label>
                     <input type="text" name="district" id="district">
                 </div>
@@ -22,6 +21,47 @@
                     <button type="submit">Search</button>
                 </div>
             </form>
+
+            <% if(searchResults.length){ %>
+                <table>
+                    <tr>
+                        <th>City</th>
+                        <th>District</th>
+                        <th>Area (m<sup>2</sup>)</th>
+                        <th>Rooms</th>
+                        <th>Price ($)</th>
+                        <th>For sale since</th>
+                    </tr>
+                    <% searchResults.forEach((listing)=> { %>
+                        <tr>
+                            <td>
+                                <%= listing.City %>
+                            </td>
+                            <td>
+                                <%= listing.District %>
+                            </td>
+                            <td>
+                                <%= listing.Area %>
+                            </td>
+                            <td>
+                                <%= listing.Rooms %>
+                            </td>
+                            <td>
+                                <%= listing.Price %>
+                            </td>
+                            <td>
+                                <%= listing.Date %>
+                            </td>
+                            <td>
+                                <button type="submit" id=<%=listing.ListingID%>>View listing</button>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </table>
+                <% } else { %>
+                    <p><b>There are no listings that match your search</b></p>
+                    <% } %>
+
     </body>
 
 </html>

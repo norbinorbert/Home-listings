@@ -23,12 +23,12 @@ function isInvalidListing(req) {
 router.post('/new_listing', express.urlencoded({ extended: true }), async (req, res) => {
   if (isInvalidListing(req.body)) {
     console.log('New listing was tried to be inserted, but data was invalid');
-    res.status(400).send('Incorrect input data');
+    res.status(400).render('error', { message: 'Incorrect input data' });
     return;
   }
   await dbListings.insertListing(req.body);
   console.log('Inserted new listing');
-  res.redirect('/');
+  res.status(200).redirect('/');
 });
 
 export default router;
