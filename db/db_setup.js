@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise.js';
 
+// create a connection
 const pool = await mysql.createPool({
   connectionLimit: 10,
   database: 'home_listings',
@@ -9,6 +10,7 @@ const pool = await mysql.createPool({
   password: 'admin',
 });
 
+// create the necessary tables
 try {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS Users(

@@ -2,11 +2,9 @@ import express from 'express';
 import morgan from 'morgan';
 import { existsSync, mkdirSync } from 'fs';
 import multer from 'multer';
-import pool from './db/db_setup.js';
+import * as dbListings from './db/db_listings.js';
+import * as dbPictures from './db/db_pictures.js';
 
-console.log(pool);
-let listingID = 0;
-const listings = [];
 const app = express();
 app.use(morgan('tiny'), express.static('./public'));
 
@@ -27,25 +25,15 @@ function isInvalidListing(req) {
 }
 
 // check if form data is correct, then save it
-app.post('/new_listing', express.urlencoded({ extended: true }), (req, res) => {
+app.post('/new_listing', express.urlencoded({ extended: true }), async (req, res) => {
   if (isInvalidListing(req.body)) {
     console.log('New listing was tried to be inserted, but data was invalid');
     res.status(400).send('Incorrect input data');
     return;
   }
-  listings.push({
-    id: listingID,
-    city: req.body.city,
-    district: req.body.district,
-    area: parseFloat(req.body.area),
-    rooms: parseInt(req.body.rooms, 10),
-    price: parseFloat(req.body.price),
-    date: Date.parse(req.body.date),
-    images: [],
-  });
-  console.log(`Inserted new listing with ID = ${listingID}`);
-  res.send(`Listing created.<br>Listing ID: ${listingID}`);
-  listingID++;
+  await dbListings.insertListing(req.body);
+  console.log('Inserted new listing');
+  res.redirect('/');
 });
 
 // make a directory where we will upload the images
@@ -55,7 +43,7 @@ if (!existsSync(uploadDir)) {
 }
 
 // check if file is in right format and check if ID is correct
-function filter(req, file, cb) {
+async function filter(req, file, cb) {
   // no ID provided
   if (!req.body['listing-id']) {
     const err = new Error('No ID provided');
@@ -68,16 +56,15 @@ function filter(req, file, cb) {
     err.name = 'BadMime';
     return cb(err);
   }
-  // listing exists
-  for (let i = 0; i < listings.length; i++) {
-    if (listings[i].id === parseInt(req.body['listing-id'], 10)) {
-      return cb(null, true);
-    }
-  }
   // listing doesn't exist
-  const err = new Error("Listing doesn't exist");
-  err.name = 'BadID';
-  return cb(err);
+  const [listing] = await dbListings.getListingsByID(parseInt(req.body['listing-id'], 10));
+  if (listing.length === 0) {
+    const err = new Error("Listing doesn't exist");
+    err.name = 'BadID';
+    return cb(err);
+  }
+  // listing exists
+  return cb(null, true);
 }
 
 // multer middleware for uploading files, filter includes form data validation
@@ -91,7 +78,7 @@ const image = multerUpload.single('image-for-listing');
 
 // check if there were any errors when loading the file, then upload photo
 app.post('/upload_photo', (req, res) => {
-  image(req, res, (err) => {
+  image(req, res, async (err) => {
     if (err) {
       console.log('New photo was tried to be uploaded, but data was invalid');
       switch (err.name) {
@@ -110,46 +97,26 @@ app.post('/upload_photo', (req, res) => {
         default:
       }
     }
-    for (let i = 0; i < listings.length; i++) {
-      if (listings[i].id === parseInt(req.body['listing-id'], 10)) {
-        listings[i].images.push(req.file.path);
-        console.log(`Successfully uploaded image for listing with ID = ${listings[i].id}`);
-      }
-    }
-    res.send('Image successfully uploaded');
+    const listingID = parseInt(req.body['listing-id'], 10);
+    await dbPictures.addPictureToListing(listingID, req.file.filename);
+    console.log(`Successfully uploaded image for listing with ID = ${listingID}`);
+    res.redirect('/');
   });
 });
 
-// check if the listing matches the search criteria
-function doesListingMeetRequirements(req, listing) {
-  if (listing.city === req.city) {
-    if (req.district && listing.district !== req.district) {
-      return false;
-    }
-    if (req['min-price'] && listing.price < parseFloat(req['min-price'])) {
-      return false;
-    }
-    if (req['max-price'] && listing.price > parseFloat(req['max-price'])) {
-      return false;
-    }
-    return true;
-  }
-  return false;
-}
-
 // check if any listings match the search criteria and list them
-app.get('/search', express.urlencoded({ extended: true }), (req, res) => {
+app.get('/search', express.urlencoded({ extended: true }), async (req, res) => {
   if (!req.query.city) {
     console.log('Search request failed because city was not provided');
     res.status(400).send('Please provide a city');
     return;
   }
-  const searchResults = listings.filter((listing) => doesListingMeetRequirements(req.query, listing));
+  const [searchResults] = await dbListings.getListingWithParameters(req.query);
   console.log('A search was completed');
   if (searchResults.length !== 0) {
     res.send(searchResults);
   } else {
-    res.send('No listings match the search criteria');
+    res.redirect('/');
   }
 });
 
