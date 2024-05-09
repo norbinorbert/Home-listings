@@ -3,6 +3,7 @@ import multer from 'multer';
 import { existsSync, mkdirSync } from 'fs';
 import * as dbPictures from '../db/db_pictures.js';
 import * as dbListings from '../db/db_listings.js';
+import * as dbUsers from '../db/db_users.js';
 
 const router = express.Router();
 
@@ -44,11 +45,19 @@ const image = multerUpload.single('image-for-listing');
 // check if there were any errors when loading the file, then upload photo
 router.post('/upload_photo/[0-9]*', (req, res) => {
   image(req, res, async (err) => {
+    const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
     if (err) {
       console.log('New photo was tried to be uploaded, but data was invalid');
       switch (err.name) {
         case 'BadMime': {
-          res.status(400).render('error', { message: 'Please only upload png or jpeg images' });
+          const [listings] = await dbListings.getListingByID(listingID);
+          const listing = listings[0];
+          const [pictures] = await dbPictures.getPicturesByListingID(listingID);
+          const [users] = await dbUsers.getUserByID(listing.UserID);
+          const user = users[0];
+          res
+            .status(400)
+            .render('listing', { listing, pictures, user, message: 'Please only upload png or jpeg images' });
           return;
         }
         case 'BadID': {
@@ -58,15 +67,11 @@ router.post('/upload_photo/[0-9]*', (req, res) => {
         default:
       }
     }
-    const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
     await dbPictures.addPictureToListing(listingID, req.file.filename);
     console.log(`Successfully uploaded image for listing with ID = ${listingID}`);
 
-    // after uploading, redirect to the listings page
-    const [listings] = await dbListings.getListingByID(listingID);
-    const listing = listings[0];
-    const [pictures] = await dbPictures.getPicturesByListingID(listingID);
-    res.render('listing', { listing, pictures });
+    // after uploading, redirect back to the listing's page
+    res.redirect(`/listing/${listingID}`);
   });
 });
 

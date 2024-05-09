@@ -1,6 +1,7 @@
 import express from 'express';
 import * as dbListings from '../db/db_listings.js';
 import * as dbPictures from '../db/db_pictures.js';
+import * as dbUsers from '../db/db_users.js';
 
 const router = express.Router();
 
@@ -24,7 +25,9 @@ router.get('/listing/[0-9]*', async (req, res) => {
   if (listings.length !== 0) {
     const [pictures] = await dbPictures.getPicturesByListingID(listingID);
     const listing = listings[0];
-    res.render('listing', { listing, pictures });
+    const [users] = await dbUsers.getUserByID(listing.UserID);
+    const user = users[0];
+    res.render('listing', { listing, pictures, user, message: '' });
   } else {
     res.status(404).render('error', { message: "Listing doesn't exist" });
   }

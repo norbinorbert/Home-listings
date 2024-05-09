@@ -50,7 +50,8 @@
                                 <%= listing.Price %>
                             </td>
                             <td>
-                                <%= listing.Date %>
+                                <%= new Date(listing.Date).toLocaleDateString('en-us', { weekday: 'long' ,
+                                    year: 'numeric' , month: 'short' , day: 'numeric' }) %>
                             </td>
                             <td>
                                 <a href="listing/<%=listing.ListingID%>">View listing</button>

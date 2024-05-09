@@ -13,6 +13,8 @@
                     <th>Rooms</th>
                     <th>Price ($)</th>
                     <th>For sale since</th>
+                    <th>Seller name</th>
+                    <th>Phone number</th>
                 </tr>
                 <tr>
                     <td>
@@ -31,7 +33,14 @@
                         <%= listing.Price %>
                     </td>
                     <td>
-                        <%= listing.Date %>
+                        <%= new Date(listing.Date).toLocaleDateString('en-us', { weekday: 'long' , year: 'numeric' ,
+                            month: 'short' , day: 'numeric' }) %>
+                    </td>
+                    <td>
+                        <%= user.Username %>
+                    </td>
+                    <td>
+                        <%= user.Phone %>
                     </td>
                 </tr>
             </table>
@@ -49,6 +58,13 @@
                             <button type="submit">Upload image</button>
                         </div>
                     </form>
+                    <div>
+                        <% if (message) { %>
+                            <p class="error">
+                                <%= message %>
+                            </p>
+                            <% } %>
+                    </div>
     </body>
 
 </html>
