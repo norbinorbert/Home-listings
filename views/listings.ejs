@@ -53,8 +53,8 @@
                                 <%= new Date(listing.Date).toLocaleDateString('en-us', { weekday: 'long' ,
                                     year: 'numeric' , month: 'short' , day: 'numeric' }) %>
                             </td>
-                            <td>
-                                <a href="listing/<%=listing.ListingID%>">View listing</button>
+                            <td class="listing-link">
+                                <a href="listing/<%=listing.ListingID%>">View listing</a>
                             </td>
                         </tr>
                         <% }) %>
