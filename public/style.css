@@ -21,3 +21,56 @@ label {
   margin-right: 10px;
   font-size: 20px;
 }
+
+.error {
+  color: red;
+}
+table {
+  float: right;
+  text-align: center;
+}
+
+th {
+  background-color: antiquewhite;
+  text-decoration: underline;
+}
+
+tr:nth-child(even) {
+  background-color: beige;
+}
+
+tr:nth-child(odd) {
+  background-color: antiquewhite;
+}
+
+.navbar a {
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 10px;
+  color: black;
+  text-decoration: none;
+  background-color: white;
+}
+
+.navbar a:active {
+  background-color: black;
+  color: white;
+}
+
+td > a {
+  border: 1px solid black;
+  padding: 1px 3px 1px 3px;
+  border-radius: 10px;
+  color: black;
+  text-decoration: none;
+  background-color: white;
+}
+
+td > a:active {
+  background-color: black;
+  color: white;
+}
+
+td.listing-link {
+  background-color: burlywood;
+}
