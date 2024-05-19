@@ -4,6 +4,7 @@ import errorMiddleware from './middleware/error.js';
 import newListingRouter from './requests/new_listing_requests.js';
 import listingsRouter from './requests/show_listing_requests.js';
 import picturesRouter from './requests/upload_image_requests.js';
+import deletePictureRouter from './requests/delete_image_request.js';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.set('views', './views');
 app.use('/', newListingRouter);
 app.use('/', listingsRouter);
 app.use('/', picturesRouter);
+app.use('/', deletePictureRouter);
 
 // error handler
 app.use(errorMiddleware);

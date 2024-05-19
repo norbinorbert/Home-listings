@@ -1,5 +1,10 @@
 <head>
   <meta charset="utf-8">
-  <title><%= title %></title>
+  <title>
+    <%= title %>
+  </title>
   <link href="/style.css" rel="stylesheet" type="text/css">
+  <% if (script) { %>
+    <script src="/<%=script%>"></script>
+    <% } %>
 </head>

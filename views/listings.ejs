@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head.ejs', { title: 'Listings' }) %>
+<%- include('partials/head.ejs', { title: 'Listings' , script: "showMore.js" }) %>
 
     <body>
         <%- include('partials/navbar.ejs') %>
@@ -28,30 +28,29 @@
                         <th>City</th>
                         <th>District</th>
                         <th>Area (m<sup>2</sup>)</th>
-                        <th>Rooms</th>
                         <th>Price ($)</th>
+                        <th>Rooms</th>
                         <th>For sale since</th>
                     </tr>
                     <% searchResults.forEach((listing)=> { %>
-                        <tr>
-                            <td>
+                        <tr class="listing-row" id="<%=listing.ListingID%>">
+                            <td id="listing-city-<%=listing.ListingID%>">
                                 <%= listing.City %>
                             </td>
-                            <td>
+                            <td id="listing-district-<%=listing.ListingID%>">
                                 <%= listing.District %>
                             </td>
-                            <td>
+                            <td id="listing-area-<%=listing.ListingID%>">
                                 <%= listing.Area %>
                             </td>
-                            <td>
-                                <%= listing.Rooms %>
-                            </td>
-                            <td>
+                            <td id="listing-price-<%=listing.ListingID%>">
                                 <%= listing.Price %>
                             </td>
-                            <td>
-                                <%= new Date(listing.Date).toLocaleDateString('en-us', { weekday: 'long' ,
-                                    year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                            <td id="listing-rooms-<%=listing.ListingID%>">
+                                ...
+                            </td>
+                            <td id="listing-date-<%=listing.ListingID%>">
+                                ...
                             </td>
                             <td class="listing-link">
                                 <a href="listing/<%=listing.ListingID%>">View listing</a>

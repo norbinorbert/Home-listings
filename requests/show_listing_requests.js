@@ -33,4 +33,16 @@ router.get('/listing/[0-9]*', async (req, res) => {
   }
 });
 
+// render more attributes on the main page
+router.get('/get_listing/[0-9]*', async (req, res) => {
+  const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
+  const [listings] = await dbListings.getListingByID(listingID);
+  if (listings.length !== 0) {
+    const listing = listings[0];
+    res.send({ listing });
+  } else {
+    res.status(404).send({ message: "Listing doesn't exist" });
+  }
+});
+
 export default router;
