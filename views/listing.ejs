@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head.ejs', { title: 'Listing' }) %>
+<%- include('partials/head.ejs', { title: 'Listing' , script: 'deleteImage.js' }) %>
 
     <body>
         <%- include('partials/navbar.ejs') %>
@@ -46,7 +46,10 @@
             </table>
             <% pictures.forEach((picture)=> { %>
                 <div>
-                    <img src="/Pictures/<%= picture.picture %>" alt="public/Pictures/c4da6c53e48e327c6e63d2de96b02c70">
+                    <img id="image-<%=picture.picture%>" src="/Pictures/<%= picture.picture %>" alt="Picture not found">
+                    <button class="image-delete" id="<%=listing.ListingID%>|<%= picture.picture %>">Delete
+                        picture</button>
+                    <p id="feedback-message-<%=picture.picture%>"></p>
                 </div>
                 <% }); %>
                     <form action="/upload_photo/<%=listing.ListingID%>" method="post" enctype="multipart/form-data">
