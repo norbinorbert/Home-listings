@@ -6,7 +6,7 @@ import * as dbListings from '../db/db_listings.js';
 const router = express.Router();
 
 // remove an image from the database and file system that matches the descriptions
-router.post('/delete_image', express.json(), async (req, res) => {
+router.delete('/delete_image', express.json(), async (req, res) => {
   // if no one is logged in, redirect to front page
   if (!req.session.sessionUser) {
     res.status(401).redirect('/');

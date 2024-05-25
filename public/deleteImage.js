@@ -5,7 +5,7 @@ async function deleteImage(event) {
 
   // send a post method containing the listingID and the name of the image
   const response = await fetch('/delete_image', {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
