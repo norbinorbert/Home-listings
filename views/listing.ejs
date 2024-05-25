@@ -3,71 +3,85 @@
 <%- include('partials/head.ejs', { title: 'Listing' , script: 'deleteImage.js' }) %>
 
     <body>
-        <%- include('partials/navbar.ejs') %>
+        <% if (!locals.sessionUser) { %>
+            <%- include('partials/navbar.ejs') %>
+                <% } else { %>
+                    <%- include('partials/navbar.ejs', {sessionUser}) %>
+                        <% } %>
 
-            <table>
-                <tr>
-                    <th>City</th>
-                    <th>District</th>
-                    <th>Area (m<sup>2</sup>)</th>
-                    <th>Rooms</th>
-                    <th>Price ($)</th>
-                    <th>For sale since</th>
-                    <th>Seller name</th>
-                    <th>Phone number</th>
-                </tr>
-                <tr>
-                    <td>
-                        <%= listing.City %>
-                    </td>
-                    <td>
-                        <%= listing.District %>
-                    </td>
-                    <td>
-                        <%= listing.Area %>
-                    </td>
-                    <td>
-                        <%= listing.Rooms %>
-                    </td>
-                    <td>
-                        <%= listing.Price %>
-                    </td>
-                    <td>
-                        <%= new Date(listing.Date).toLocaleDateString('en-us', { weekday: 'long' , year: 'numeric' ,
-                            month: 'short' , day: 'numeric' }) %>
-                    </td>
-                    <td>
-                        <%= user.Username %>
-                    </td>
-                    <td>
-                        <%= user.Phone %>
-                    </td>
-                </tr>
-            </table>
-            <% pictures.forEach((picture)=> { %>
-                <div>
-                    <img id="image-<%=picture.picture%>" src="/Pictures/<%= picture.picture %>" alt="Picture not found">
-                    <button class="image-delete" id="<%=listing.ListingID%>|<%= picture.picture %>">Delete
-                        picture</button>
-                    <p id="feedback-message-<%=picture.picture%>"></p>
-                </div>
-                <% }); %>
-                    <form action="/upload_photo/<%=listing.ListingID%>" method="post" enctype="multipart/form-data">
-                        <div>
-                            <label for="image-for-listing">Upload image</label>
-                            <input type="file" name="image-for-listing" id="image-for-listing" required>
-                        </div>
-                        <div>
-                            <button type="submit">Upload image</button>
-                        </div>
-                    </form>
-                    <div>
-                        <% if (message) { %>
-                            <p class="error">
-                                <%= message %>
-                            </p>
-                            <% } %>
-                    </div>
+                            <table>
+                                <tr>
+                                    <th>City</th>
+                                    <th>District</th>
+                                    <th>Area (m<sup>2</sup>)</th>
+                                    <th>Rooms</th>
+                                    <th>Price ($)</th>
+                                    <th>For sale since</th>
+                                    <th>Seller name</th>
+                                    <th>Phone number</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <%= listing.City %>
+                                    </td>
+                                    <td>
+                                        <%= listing.District %>
+                                    </td>
+                                    <td>
+                                        <%= listing.Area %>
+                                    </td>
+                                    <td>
+                                        <%= listing.Rooms %>
+                                    </td>
+                                    <td>
+                                        <%= listing.Price %>
+                                    </td>
+                                    <td>
+                                        <%= new Date(listing.Date).toLocaleDateString('en-us', { weekday: 'long' ,
+                                            year: 'numeric' , month: 'short' , day: 'numeric' }) %>
+                                    </td>
+                                    <td>
+                                        <%= user.Username %>
+                                    </td>
+                                    <td>
+                                        <%= user.Phone %>
+                                    </td>
+                                </tr>
+                            </table>
+                            <% pictures.forEach((picture)=> { %>
+                                <div>
+                                    <img id="image-<%=picture.picture%>" src="/Pictures/<%= picture.picture %>"
+                                        alt="Picture not found">
+                                    <% if (locals.sessionUser && (locals.sessionUser.Username===listing.Username ||
+                                        locals.sessionUser.Username==='admin' )) { %>
+                                        <button class="image-delete"
+                                            id="<%=listing.ListingID%>|<%= picture.picture %>">Delete
+                                            picture</button>
+                                        <p id="feedback-message-<%=picture.picture%>"></p>
+                                        <% } %>
+                                </div>
+                                <% }); %>
+                                    <% if (locals.sessionUser && (locals.sessionUser.Username===listing.Username ||
+                                        locals.sessionUser.Username==='admin' )) { %>
+                                        <form action="/upload_photo/<%=listing.ListingID%>" method="post"
+                                            enctype="multipart/form-data">
+                                            <div>
+                                                <label for="image-for-listing">Upload image</label>
+                                                <input type="file" name="image-for-listing" id="image-for-listing"
+                                                    required>
+                                            </div>
+                                            <div>
+                                                <button type="submit">Upload image</button>
+                                            </div>
+                                        </form>
+                                        <div>
+                                            <% if (message) { %>
+                                                <p class="error">
+                                                    <%= message %>
+                                                </p>
+                                                <% } %>
+                                        </div>
+                                        <% } %>
     </body>
 
 </html>

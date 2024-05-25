@@ -8,14 +8,14 @@ const router = express.Router();
 // main page
 router.get('/', async (req, res) => {
   const [searchResults] = await dbListings.getListings();
-  res.render('listings', { searchResults });
+  res.render('listings', { searchResults, sessionUser: req.session.sessionUser });
 });
 
 // check if any listings match the search criteria and list them
 router.get('/search', express.urlencoded({ extended: true }), async (req, res) => {
   const [searchResults] = await dbListings.getListingWithFilters(req.query);
   console.log('A search was completed');
-  res.render('listings', { searchResults });
+  res.render('listings', { searchResults, sessionUser: req.session.sessionUser });
 });
 
 // individual listings
@@ -25,11 +25,11 @@ router.get('/listing/[0-9]*', async (req, res) => {
   if (listings.length !== 0) {
     const [pictures] = await dbPictures.getPicturesByListingID(listingID);
     const listing = listings[0];
-    const [users] = await dbUsers.getUserByID(listing.UserID);
+    const [users] = await dbUsers.getUserByName(listing.Username);
     const user = users[0];
-    res.render('listing', { listing, pictures, user, message: '' });
+    res.render('listing', { listing, pictures, user, message: '', sessionUser: req.session.sessionUser });
   } else {
-    res.status(404).render('error', { message: "Listing doesn't exist" });
+    res.status(404).render('error', { message: "Listing doesn't exist", sessionUser: req.session.sessionUser });
   }
 });
 
