@@ -43,7 +43,7 @@ router.post('/login', express.urlencoded({ extended: true }), async (req, res) =
   }
 
   // successful login redirects to front page
-  req.session.sessionUser = user;
+  req.session.sessionUser = user.Username;
   res.redirect('/');
 });
 

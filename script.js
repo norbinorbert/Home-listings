@@ -25,7 +25,7 @@ app.set('views', './views');
 // session middleware
 app.use(
   session({
-    secret: 'asd',
+    secret: 'rYOf9b4zbC9F3C5TfbWfM+QQFx8lKDnPacCqEeuTOqCenvZu0WsuLZiF3duTqgAdqU+timEma1e6xg4rdz6GdA==',
     resave: false,
     saveUninitialized: false,
   }),

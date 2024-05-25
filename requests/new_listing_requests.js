@@ -35,7 +35,7 @@ router.post('/new_listing', express.urlencoded({ extended: true }), async (req, 
       .render('new_listing', { users, message: 'Incorrect input data', sessionUser: req.session.sessionUser });
     return;
   }
-  req.body.user = req.session.sessionUser.Username;
+  req.body.user = req.session.sessionUser;
   await dbListings.insertListing(req.body);
   console.log('Inserted new listing');
   res.status(200).redirect('/');

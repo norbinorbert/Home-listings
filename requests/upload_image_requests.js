@@ -53,7 +53,7 @@ router.post('/upload_photo/[0-9]*', async (req, res) => {
   const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
   const [listings] = await dbListings.getListingByID(listingID);
   const listing = listings[0];
-  if (listing.Username !== req.session.sessionUser.Username) {
+  if (listing.Username !== req.session.sessionUser) {
     res.status(401).send({ message: "This listing doesn't belong to you" });
     return;
   }

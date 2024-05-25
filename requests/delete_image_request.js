@@ -17,7 +17,7 @@ router.delete('/delete_image', express.json(), async (req, res) => {
   const [listings] = await dbListings.getListingByID(listingID);
   const listing = listings[0];
   // if logged in user is not the owner of the listing, then don't delete image
-  if (listing.Username !== req.session.sessionUser.Username) {
+  if (listing.Username !== req.session.sessionUser) {
     res.status(401).send({ message: "This listing doesn't belong to you" });
     return;
   }
