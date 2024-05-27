@@ -8,7 +8,7 @@ router.use('/logout', (req, res) => {
     if (err) {
       res.status(500).render('error', { message: `Logout error: ${err.message}` });
     } else {
-      res.redirect('back');
+      res.redirect('/');
     }
   });
 });

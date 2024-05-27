@@ -1,6 +1,7 @@
 import express from 'express';
 import * as dbListings from '../db/db_listings.js';
 import * as dbUsers from '../db/db_users.js';
+import loggedOutMiddleware from '../middleware/logged_out.js';
 
 const router = express.Router();
 
@@ -21,13 +22,8 @@ function isInvalidListing(req) {
 }
 
 // check if form data is correct, then save it
-router.post('/new_listing', express.urlencoded({ extended: true }), async (req, res) => {
-  // users that aren't logged in can't post listings
-  if (!req.session.sessionUser) {
-    res.status(401).redirect('/');
-    return;
-  }
-  if (await isInvalidListing(req.body)) {
+router.post('/new_listing', loggedOutMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
+  if (isInvalidListing(req.body)) {
     console.log('New listing was tried to be inserted, but data was invalid');
     const [users] = await dbUsers.getUsers();
     res
@@ -42,12 +38,7 @@ router.post('/new_listing', express.urlencoded({ extended: true }), async (req, 
 });
 
 // render the new listing form
-router.get('/new_listing', async (req, res) => {
-  // users that aren't logged in can't post listings
-  if (!req.session.sessionUser) {
-    res.status(401).redirect('/');
-    return;
-  }
+router.get('/new_listing', loggedOutMiddleware, async (req, res) => {
   const [users] = await dbUsers.getUsers();
   res.render('new_listing', { users, message: '', sessionUser: req.session.sessionUser });
 });
