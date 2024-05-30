@@ -1,7 +1,7 @@
 import express from 'express';
 import * as dbListings from '../db/db_listings.js';
 import * as dbUsers from '../db/db_users.js';
-import loggedOutMiddleware from '../middleware/logged_out.js';
+import { loggedOutMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
 

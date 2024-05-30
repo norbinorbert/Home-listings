@@ -1,25 +1,16 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import * as dbUsers from '../db/db_users.js';
+import { loggedInMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
 
 // login page, only shown for users that are not logged in
-router.get('/login', (req, res) => {
-  if (req.session.sessionUser) {
-    res.status(401).redirect('/');
-    return;
-  }
+router.get('/login', loggedInMiddleware, (req, res) => {
   res.render('login', { message: '' });
 });
 
-router.post('/login', express.urlencoded({ extended: true }), async (req, res) => {
-  // only users that aren't logged in can send login requests
-  if (req.session.sessionUser) {
-    res.status(401).redirect('/');
-    return;
-  }
-
+router.post('/login', loggedInMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
   // validate form data
   if (!req.body.username) {
     res.status(400).render('login', { message: 'Please provide a username' });

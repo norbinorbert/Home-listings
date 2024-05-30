@@ -2,7 +2,7 @@ import express from 'express';
 import { unlink } from 'fs';
 import * as dbPictures from '../db/db_pictures.js';
 import * as dbListings from '../db/db_listings.js';
-import loggedOutMiddleware from '../middleware/logged_out.js';
+import { loggedOutMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
 
