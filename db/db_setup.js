@@ -15,8 +15,9 @@ try {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS Users(
         Username VARCHAR(50) PRIMARY KEY,
-        Phone VARCHAR(15),
-        Password VARCHAR(300));`,
+        Phone VARCHAR(20),
+        Password VARCHAR(300),
+        Role VARCHAR(10));`,
   );
   await pool.query(
     `CREATE TABLE IF NOT EXISTS Listings(
