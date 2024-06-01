@@ -3,64 +3,69 @@
 <%- include('partials/head.ejs', { title: 'Listings' , script: "showMore.js" }) %>
 
     <body>
-        <%- include('partials/navbar.ejs') %>
-            <form action="/search">
-                <div>
-                    <label for="city">City</label>
-                    <input type="text" name="city" id="city">
-                    <label for="district">City District</label>
-                    <input type="text" name="district" id="district">
-                </div>
-                <div>
-                    <label for="min-price">Minimum price</label>
-                    <input type="number" name="min-price" id="min-price" step="0.01" min="0.01">
-                    <label for="max-price">Maximum price</label>
-                    <input type="number" name="max-price" id="max-price" step="0.01" min="0.01">
-                </div>
-                <div>
-                    <button type="submit">Search</button>
-                </div>
-            </form>
-
-            <% if(searchResults.length){ %>
-                <table>
-                    <tr>
-                        <th>City</th>
-                        <th>District</th>
-                        <th>Area (m<sup>2</sup>)</th>
-                        <th>Price ($)</th>
-                        <th>Rooms</th>
-                        <th>For sale since</th>
-                    </tr>
-                    <% searchResults.forEach((listing)=> { %>
-                        <tr class="listing-row" id="<%=listing.ListingID%>">
-                            <td id="listing-city-<%=listing.ListingID%>">
-                                <%= listing.City %>
-                            </td>
-                            <td id="listing-district-<%=listing.ListingID%>">
-                                <%= listing.District %>
-                            </td>
-                            <td id="listing-area-<%=listing.ListingID%>">
-                                <%= listing.Area %>
-                            </td>
-                            <td id="listing-price-<%=listing.ListingID%>">
-                                <%= listing.Price %>
-                            </td>
-                            <td id="listing-rooms-<%=listing.ListingID%>">
-                                ...
-                            </td>
-                            <td id="listing-date-<%=listing.ListingID%>">
-                                ...
-                            </td>
-                            <td class="listing-link">
-                                <a href="listing/<%=listing.ListingID%>">View listing</a>
-                            </td>
-                        </tr>
-                        <% }) %>
-                </table>
+        <% if (!locals.sessionUser) { %>
+            <%- include('partials/navbar.ejs') %>
                 <% } else { %>
-                    <p><b>There are no listings that match your search</b></p>
-                    <% } %>
+                    <%- include('partials/navbar.ejs', {sessionUser}) %>
+                        <% } %>
+                            <form action="/search">
+                                <div>
+                                    <label for="city">City</label>
+                                    <input type="text" name="city" id="city">
+                                    <label for="district">City District</label>
+                                    <input type="text" name="district" id="district">
+                                </div>
+                                <div>
+                                    <label for="min-price">Minimum price</label>
+                                    <input type="number" name="min-price" id="min-price" step="0.01" min="0.01">
+                                    <label for="max-price">Maximum price</label>
+                                    <input type="number" name="max-price" id="max-price" step="0.01" min="0.01">
+                                </div>
+                                <div>
+                                    <button type="submit">Search</button>
+                                </div>
+                            </form>
+
+                            <% if(searchResults.length){ %>
+                                <table>
+                                    <tr>
+                                        <th>City</th>
+                                        <th>District</th>
+                                        <th>Area (m<sup>2</sup>)</th>
+                                        <th>Price ($)</th>
+                                        <th>Rooms</th>
+                                        <th>For sale since</th>
+                                    </tr>
+                                    <% searchResults.forEach((listing)=> { %>
+                                        <tr class="listing-row" id="<%=listing.ListingID%>">
+                                            <td id="listing-city-<%=listing.ListingID%>">
+                                                <%= listing.City %>
+                                            </td>
+                                            <td id="listing-district-<%=listing.ListingID%>">
+                                                <%= listing.District %>
+                                            </td>
+                                            <td id="listing-area-<%=listing.ListingID%>">
+                                                <%= listing.Area %>
+                                            </td>
+                                            <td id="listing-price-<%=listing.ListingID%>">
+                                                <%= listing.Price %>
+                                            </td>
+                                            <td id="listing-rooms-<%=listing.ListingID%>">
+                                                ...
+                                            </td>
+                                            <td id="listing-date-<%=listing.ListingID%>">
+                                                ...
+                                            </td>
+                                            <td class="listing-link">
+                                                <a href="listing/<%=listing.ListingID%>">View listing</a>
+                                            </td>
+                                            <td class="listing-error" id="listing-error-<%=listing.ListingID%>"></td>
+                                        </tr>
+                                        <% }) %>
+                                </table>
+                                <% } else { %>
+                                    <p><b>There are no listings that match your search</b></p>
+                                    <% } %>
 
     </body>
 

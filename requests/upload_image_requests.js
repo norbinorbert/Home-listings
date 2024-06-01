@@ -4,6 +4,7 @@ import { existsSync, mkdirSync } from 'fs';
 import * as dbPictures from '../db/db_pictures.js';
 import * as dbListings from '../db/db_listings.js';
 import * as dbUsers from '../db/db_users.js';
+import { loggedOutMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
 
@@ -43,17 +44,23 @@ const multerUpload = multer({
 const image = multerUpload.single('image-for-listing');
 
 // check if there were any errors when loading the file, then upload photo
-router.post('/upload_photo/[0-9]*', (req, res) => {
+router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
+  // if logged in user is not the owner of the listing, then don't upload photo
+  const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
+  const [listings] = await dbListings.getListingByID(listingID);
+  const listing = listings[0];
+  if (listing.Username !== req.session.sessionUser) {
+    res.status(403).render('error', { message: "This listing doesn't belong to you" });
+    return;
+  }
+
   image(req, res, async (err) => {
-    const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
     if (err) {
       console.log('New photo was tried to be uploaded, but data was invalid');
       switch (err.name) {
         case 'BadMime': {
-          const [listings] = await dbListings.getListingByID(listingID);
-          const listing = listings[0];
           const [pictures] = await dbPictures.getPicturesByListingID(listingID);
-          const [users] = await dbUsers.getUserByID(listing.UserID);
+          const [users] = await dbUsers.getUserByName(listing.Username);
           const user = users[0];
           res
             .status(400)

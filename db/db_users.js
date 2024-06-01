@@ -7,7 +7,14 @@ export const getUsers = () => {
 };
 
 // get a single user
-export const getUserByID = (userID) => {
-  const query = 'SELECT * FROM Users WHERE UserID = ?';
-  return pool.query(query, [userID]);
+export const getUserByName = (username) => {
+  const query = 'SELECT * FROM Users WHERE Username = ?';
+  return pool.query(query, [username]);
+};
+
+// inserting new user
+export const insertUser = (username, phone, password) => {
+  const query = `INSERT INTO Users (Username, Phone, Password) 
+                VALUES (?, ?, ?)`;
+  return pool.query(query, [username, phone, password]);
 };
