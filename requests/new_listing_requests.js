@@ -27,7 +27,7 @@ router.post('/new_listing', loggedOutMiddleware, express.urlencoded({ extended: 
     res.status(400).render('new_listing', { message: 'Incorrect input data', sessionUser: req.session.sessionUser });
     return;
   }
-  req.body.user = req.session.sessionUser;
+  req.body.Username = req.session.sessionUser.Username;
   await dbListings.insertListing(req.body);
   console.log('Inserted new listing');
   res.status(200).redirect('/');

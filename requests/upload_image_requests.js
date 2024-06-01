@@ -49,11 +49,13 @@ router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
   const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
   const listing = await dbListings.getListingByID(listingID);
   if (!listing) {
-    res.status(404).render('error', { message: "Listing doesn't exist" });
+    res.status(404).render('error', { message: "Listing doesn't exist", sessionUser: req.session.sessionUser });
     return;
   }
-  if (listing.Username !== req.session.sessionUser) {
-    res.status(403).render('error', { message: "This listing doesn't belong to you" });
+  if (listing.Username !== req.session.sessionUser.Username) {
+    res
+      .status(403)
+      .render('error', { message: "This listing doesn't belong to you", sessionUser: req.session.sessionUser });
     return;
   }
 
@@ -70,7 +72,7 @@ router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
           return;
         }
         case 'BadID': {
-          res.status(404).render('error', { message: "Listing doesn't exist" });
+          res.status(404).render('error', { message: "Listing doesn't exist", sessionUser: req.session.sessionUser });
           return;
         }
         default:

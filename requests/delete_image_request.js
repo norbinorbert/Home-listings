@@ -12,12 +12,14 @@ router.delete('/delete_image', loggedOutMiddleware, express.json(), async (req, 
   const { listingID } = req.body;
   const listing = await dbListings.getListingByID(listingID);
   if (!listing) {
-    res.status(404).render('error', { message: "Listing doesn't exist" });
+    res.status(404).render('error', { message: "Listing doesn't exist", sessionUser: req.session.sessionUser });
     return;
   }
   // if logged in user is not the owner of the listing, then don't delete image
-  if (listing.Username !== req.session.sessionUser) {
-    res.status(403).render('error', { message: "This listing doesn't belong to you" });
+  if (listing.Username !== req.session.sessionUser.Username) {
+    res
+      .status(403)
+      .render('error', { message: "This listing doesn't belong to you", sessionUser: req.session.sessionUser });
     return;
   }
   const [dbResponse] = await dbPictures.deletePicture(listingID, pictureName);

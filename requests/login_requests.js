@@ -33,7 +33,7 @@ router.post('/login', loggedInMiddleware, express.urlencoded({ extended: true })
   }
 
   // successful login redirects to front page
-  req.session.sessionUser = user.Username;
+  req.session.sessionUser = { Username: user.Username, Role: user.Role };
   res.redirect('/');
 });
 

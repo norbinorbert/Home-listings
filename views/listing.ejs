@@ -52,8 +52,8 @@
                                 <div>
                                     <img id="image-<%=picture.picture%>" src="/Pictures/<%= picture.picture %>"
                                         alt="Picture not found">
-                                    <% if (locals.sessionUser && (locals.sessionUser===listing.Username ||
-                                        locals.sessionUser==='admin' )) { %>
+                                    <% if (locals.sessionUser && (locals.sessionUser.Username===listing.Username ||
+                                        locals.sessionUser.Role==='admin' )) { %>
                                         <button class="image-delete"
                                             id="<%=listing.ListingID%>|<%= picture.picture %>">Delete
                                             picture</button>
@@ -61,8 +61,8 @@
                                         <% } %>
                                 </div>
                                 <% }); %>
-                                    <% if (locals.sessionUser && (locals.sessionUser===listing.Username ||
-                                        locals.sessionUser==='admin' )) { %>
+                                    <% if (locals.sessionUser && (locals.sessionUser.Username===listing.Username ||
+                                        locals.sessionUser.Role==='admin' )) { %>
                                         <form action="/upload_photo/<%=listing.ListingID%>" method="post"
                                             enctype="multipart/form-data">
                                             <div>
