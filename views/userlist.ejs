@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs', { title: 'Userlist' , script: 'userlist.js' }) %>
+
+    <body>
+        <% if (!locals.sessionUser) { %>
+            <%- include('partials/navbar.ejs') %>
+                <% } else { %>
+                    <%- include('partials/navbar.ejs', {sessionUser}) %>
+                        <% } %>
+
+                            <div>
+                                <label for="username">Username</label>
+                                <input type="text" name="username" id="username">
+                            </div>
+                            <div>
+                                <p id="message"></p>
+                            </div>
+    </body>
+
+</html>

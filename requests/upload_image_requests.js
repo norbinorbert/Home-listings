@@ -52,7 +52,7 @@ router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
     res.status(404).render('error', { message: "Listing doesn't exist", sessionUser: req.session.sessionUser });
     return;
   }
-  if (listing.Username !== req.session.sessionUser.Username) {
+  if (listing.Username !== req.session.sessionUser.Username && req.session.sessionUser.Role !== 'admin') {
     res
       .status(403)
       .render('error', { message: "This listing doesn't belong to you", sessionUser: req.session.sessionUser });

@@ -9,6 +9,7 @@ import deletePictureRouter from './requests/delete_image_request.js';
 import loginRouter from './requests/login_requests.js';
 import registerRouter from './requests/register_requests.js';
 import logoutRouter from './requests/logout_requests.js';
+import userListRouter from './requests/userlist_requests.js';
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/', deletePictureRouter);
 app.use('/', loginRouter);
 app.use('/', registerRouter);
 app.use('/', logoutRouter);
+app.use('/', userListRouter);
 
 // error handler
 app.use(errorMiddleware);
