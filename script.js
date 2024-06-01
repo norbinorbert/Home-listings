@@ -2,13 +2,13 @@ import express from 'express';
 import morgan from 'morgan';
 import session from 'express-session';
 import errorMiddleware from './middleware/error.js';
-import newListingRouter from './requests/new_listing_requests.js';
+import newListingRouter from './requests/new_listing_request.js';
 import listingsRouter from './requests/show_listing_requests.js';
-import picturesRouter from './requests/upload_image_requests.js';
+import picturesRouter from './requests/upload_image_request.js';
 import deletePictureRouter from './requests/delete_image_request.js';
-import loginRouter from './requests/login_requests.js';
-import registerRouter from './requests/register_requests.js';
-import logoutRouter from './requests/logout_requests.js';
+import loginRouter from './requests/login_request.js';
+import registerRouter from './requests/register_request.js';
+import logoutRouter from './requests/logout_request.js';
 import userListRouter from './requests/userlist_requests.js';
 
 const app = express();
