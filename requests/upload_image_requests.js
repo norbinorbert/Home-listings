@@ -50,7 +50,7 @@ router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
   const [listings] = await dbListings.getListingByID(listingID);
   const listing = listings[0];
   if (listing.Username !== req.session.sessionUser) {
-    res.status(401).render('error', { message: "This listing doesn't belong to you" });
+    res.status(403).render('error', { message: "This listing doesn't belong to you" });
     return;
   }
 
