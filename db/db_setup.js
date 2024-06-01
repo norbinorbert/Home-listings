@@ -39,10 +39,10 @@ try {
         PRIMARY KEY(ListingID, Picture));`,
   );
 
-  // temporary solution for an admin user
+  // default admin user
   await pool.query("DELETE FROM Users WHERE Username = 'admin'");
-  await pool.query(`INSERT INTO Users (Username, Password) 
-                  VALUES ('admin', '$2b$10$DW7Dp0bzSBwX4KfNJP4lZOzPrG7cPfdtFANV9D1w7qFjCunGJmVJG')`);
+  await pool.query(`INSERT INTO Users (Username, Password, Role) 
+                  VALUES ('admin', '$2b$10$DW7Dp0bzSBwX4KfNJP4lZOzPrG7cPfdtFANV9D1w7qFjCunGJmVJG', 'admin')`);
 
   console.log('Tables created successfully');
 } catch (err) {

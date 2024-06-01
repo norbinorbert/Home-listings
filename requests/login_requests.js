@@ -20,12 +20,11 @@ router.post('/login', loggedInMiddleware, express.urlencoded({ extended: true })
     res.status(400).render('login', { message: 'Please provide a password' });
     return;
   }
-  const [users] = await dbUsers.getUserByName(req.body.username);
-  if (users.length === 0) {
+  const user = await dbUsers.getUserByName(req.body.username);
+  if (!user) {
     res.status(400).render('login', { message: 'Incorrect username or password' });
     return;
   }
-  const user = users[0];
   const hashedPassword = user.Password;
   const match = await bcrypt.compare(req.body.password, hashedPassword);
   if (!match) {

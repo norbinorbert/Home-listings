@@ -39,8 +39,8 @@ router.post('/register', loggedInMiddleware, express.urlencoded({ extended: true
     res.status(400).render('register', { message: "Passwords don't match" });
     return;
   }
-  const [users] = await dbUsers.getUserByName(req.body.username);
-  if (users.length !== 0) {
+  const user = await dbUsers.getUserByName(req.body.username);
+  if (user) {
     res.status(400).render('register', { message: 'User already exists' });
     return;
   }

@@ -1,9 +1,10 @@
 import pool from './db_setup.js';
 
 // get pictures to display
-export const getPicturesByListingID = (listingID) => {
+export const getPicturesByListingID = async (listingID) => {
   const query = 'SELECT picture FROM Pictures WHERE ListingID = ?';
-  return pool.query(query, [listingID]);
+  const [pictures] = await pool.query(query, [listingID]);
+  return pictures;
 };
 
 // add a picture to existing listing

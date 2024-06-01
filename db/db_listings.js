@@ -1,19 +1,21 @@
 import pool from './db_setup.js';
 
 // used to check if listing exists or displaying single listing
-export const getListingByID = (listingID) => {
+export const getListingByID = async (listingID) => {
   const query = 'SELECT * FROM Listings WHERE ListingID = ?';
-  return pool.query(query, [listingID]);
+  const [listings] = await pool.query(query, [listingID]);
+  return listings[0];
 };
 
 // get all listings in case no filtering is done
-export const getListings = () => {
+export const getListings = async () => {
   const query = 'SELECT * FROM Listings';
-  return pool.query(query);
+  const [listings] = await pool.query(query);
+  return listings;
 };
 
 // used for filtering listings
-export const getListingWithFilters = (req) => {
+export const getListingsWithFilters = async (req) => {
   const query = `SELECT * FROM Listings 
                 WHERE (? IS NULL OR City = ?) 
                 AND (? IS NULL OR District = ?) 
@@ -31,7 +33,7 @@ export const getListingWithFilters = (req) => {
   if (!req['max-price']) {
     req['max-price'] = null;
   }
-  return pool.query(query, [
+  const [listings] = await pool.query(query, [
     req.city,
     req.city,
     req.district,
@@ -41,6 +43,7 @@ export const getListingWithFilters = (req) => {
     req['max-price'],
     req['max-price'],
   ]);
+  return listings;
 };
 
 // inserting new listing

@@ -24,8 +24,8 @@ async function filter(req, file, cb) {
   }
   // listing doesn't exist
   const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
-  const [listing] = await dbListings.getListingByID(listingID);
-  if (listing.length === 0) {
+  const listing = await dbListings.getListingByID(listingID);
+  if (!listing) {
     const err = new Error("Listing doesn't exist");
     err.name = 'BadID';
     return cb(err);
@@ -47,8 +47,11 @@ const image = multerUpload.single('image-for-listing');
 router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
   // if logged in user is not the owner of the listing, then don't upload photo
   const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
-  const [listings] = await dbListings.getListingByID(listingID);
-  const listing = listings[0];
+  const listing = await dbListings.getListingByID(listingID);
+  if (!listing) {
+    res.status(404).render('error', { message: "Listing doesn't exist" });
+    return;
+  }
   if (listing.Username !== req.session.sessionUser) {
     res.status(403).render('error', { message: "This listing doesn't belong to you" });
     return;
@@ -59,9 +62,8 @@ router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
       console.log('New photo was tried to be uploaded, but data was invalid');
       switch (err.name) {
         case 'BadMime': {
-          const [pictures] = await dbPictures.getPicturesByListingID(listingID);
-          const [users] = await dbUsers.getUserByName(listing.Username);
-          const user = users[0];
+          const pictures = await dbPictures.getPicturesByListingID(listingID);
+          const user = await dbUsers.getUserByName(listing.Username);
           res
             .status(400)
             .render('listing', { listing, pictures, user, message: 'Please only upload png or jpeg images' });
