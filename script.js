@@ -10,6 +10,7 @@ import loginRouter from './requests/login_request.js';
 import registerRouter from './requests/register_request.js';
 import logoutRouter from './requests/logout_request.js';
 import userListRouter from './requests/userlist_requests.js';
+import deleteListingRouter from './requests/delete_listing_request.js';
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/', loginRouter);
 app.use('/', registerRouter);
 app.use('/', logoutRouter);
 app.use('/', userListRouter);
+app.use('/', deleteListingRouter);
 
 // error handler
 app.use(errorMiddleware);

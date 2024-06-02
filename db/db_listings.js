@@ -52,3 +52,9 @@ export const insertListing = (req) => {
                 VALUES (?, ?, ?, ?, ?, ?, ?)`;
   return pool.query(query, [req.city, req.district, req.area, req.rooms, req.price, req.date, req.Username]);
 };
+
+// deleting a listing
+export const deleteListingByID = (listingID) => {
+  const query = 'DELETE FROM Listings WHERE ListingID = ?';
+  return pool.query(query, [listingID]);
+};

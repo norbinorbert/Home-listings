@@ -29,4 +29,12 @@ window.onload = () => {
   for (let i = 0; i < deleteButtons.length; i++) {
     deleteButtons[i].addEventListener('click', deleteImage);
   }
+
+  // delete listing if user confirms
+  document.getElementById('listing-delete').addEventListener('click', (event) => {
+    event.preventDefault();
+    if (window.confirm('Are you sure you want to delete this listing?')) {
+      document.getElementById('listing-delete-form').submit();
+    }
+  });
 };

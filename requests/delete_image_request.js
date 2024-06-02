@@ -15,7 +15,7 @@ router.delete('/delete_image', loggedOutMiddleware, express.json(), async (req, 
     res.status(404).render('error', { message: "Listing doesn't exist", sessionUser: req.session.sessionUser });
     return;
   }
-  // if logged in user is not the owner of the listing and isn't and admin, then don't delete image
+  // if logged in user is not the owner of the listing and isn't an admin, then don't delete image
   if (listing.Username !== req.session.sessionUser.Username && req.session.sessionUser.Role !== 'admin') {
     res
       .status(403)
