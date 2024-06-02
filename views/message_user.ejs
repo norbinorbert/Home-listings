@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs', { title: 'Error' , script: 'load_messages.js' }) %>
+
+    <body>
+        <% if (!locals.sessionUser) { %>
+            <%- include('partials/navbar.ejs') %>
+                <% } else { %>
+                    <%- include('partials/navbar.ejs', {sessionUser}) %>
+                        <% } %>
+                            <div id="target-user">Conversation with
+                                <b>
+                                    <%=target%>
+                                </b>
+                            </div>
+                            <div id="messages"></div>
+                            <div id="message-text">
+                                <textarea id="textarea"></textarea>
+                                <button id="send-message">Send</button>
+                            </div>
+                            <p class="error" id="error-message"></p>
+    </body>
+
+</html>

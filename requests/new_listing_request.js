@@ -28,7 +28,14 @@ router.post('/new_listing', loggedOutMiddleware, express.urlencoded({ extended: 
     return;
   }
   req.body.Username = req.session.sessionUser.Username;
-  await dbListings.insertListing(req.body);
+  try {
+    await dbListings.insertListing(req.body);
+  } catch (err) {
+    res
+      .status(500)
+      .render('new_listing', { message: 'Unexpected error, could not insert', sessionUser: req.session.sessionUser });
+    return;
+  }
   console.log('Inserted new listing');
   res.status(200).redirect('/');
 });

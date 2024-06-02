@@ -38,6 +38,16 @@ try {
         FOREIGN KEY (ListingID) REFERENCES Listings(ListingID),
         PRIMARY KEY(ListingID, Picture));`,
   );
+  await pool.query(
+    `CREATE TABLE IF NOT EXISTS Messages(
+      MessageID INT PRIMARY KEY AUTO_INCREMENT,
+      Message TEXT,
+      Source VARCHAR(50),
+      Destination VARCHAR(50),
+      Date TIMESTAMP,
+      FOREIGN KEY (Source) REFERENCES Users(Username),
+      FOREIGN KEY (Destination) REFERENCES Users(Username));`,
+  );
 
   // default admin user
   await pool.query("DELETE FROM Users WHERE Username = 'admin'");

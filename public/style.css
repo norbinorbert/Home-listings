@@ -25,6 +25,7 @@ label {
 .error {
   color: red;
 }
+
 table {
   float: right;
   text-align: center;
@@ -77,4 +78,52 @@ td.listing-link {
 
 td.listing-error {
   visibility: hidden;
+}
+
+div#message-text {
+  position: fixed;
+  bottom: 4vh;
+  width: 100%;
+}
+
+div#message-text > textarea {
+  width: 70vw;
+  height: 5vh;
+  word-wrap: break-word;
+  resize: none;
+  font-size: 15px;
+}
+
+p#error-message {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  margin-bottom: 1%;
+}
+
+div#messages {
+  overflow-y: auto;
+  max-height: 80vh;
+  max-width: 75vw;
+}
+
+div#messages > p {
+  margin: 5px;
+  padding: 0px 15px 0px 15px;
+  word-wrap: break-word;
+  border-radius: 10px;
+}
+
+div#messages > p.destination {
+  background-color: antiquewhite;
+  text-align: left;
+  margin-right: 30%;
+  margin-left: 5%;
+}
+
+div#messages > p.source {
+  background-color: beige;
+  text-align: right;
+  margin-left: 30%;
+  margin-right: 5%;
 }
