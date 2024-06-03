@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs', { title: 'Error' , script: 'message_redirect.js' }) %>
+
+    <body>
+        <% if (!locals.sessionUser) { %>
+            <%- include('partials/navbar.ejs') %>
+                <% } else { %>
+                    <%- include('partials/navbar.ejs', {sessionUser}) %>
+                        <% } %>
+
+                            <div id="previous-conversations">
+                                <% if(locals.previousUsers) { %>
+                                    <p>Previous conversations:</p>
+                                    <% previousUsers.forEach((username)=>{ %>
+                                        <div>
+                                            <a href="/messages/<%=username%>">Conversation with <b>
+                                                    <%=username%>
+                                                </b></a>
+                                        </div>
+                                        <% }); } else { %>
+                                            <p>You don't have any recorded conversations</p>
+                                            <% } %>
+                            </div>
+                            <div id="message-user">
+                                <span>Select a user to send message to</span>
+                                <select name="user" id="user">
+                                    <option value=""></option>
+                                    <% users.forEach((user)=> { %>
+                                        <option value="<%=user.Username%>">
+                                            <%=user.Username%>
+                                        </option>
+                                        <% }); %>
+                                </select>
+                                <button id="redirect-to">Message</button>
+                            </div>
+    </body>
+
+</html>

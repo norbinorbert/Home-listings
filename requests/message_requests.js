@@ -5,6 +5,25 @@ import * as dbMessages from '../db/db_messages.js';
 
 const router = express.Router();
 
+// render main messages page, here user can choose which other user he wants to send a message to
+router.get('/messages', loggedOutMiddleware, async (req, res) => {
+  const users = await dbUsers.getUsersByNamePrefix('%');
+  const messages = await dbMessages.getMessagesThatBelongToUser(req.session.sessionUser.Username);
+  const previousUsers = [];
+  messages.forEach((message) => {
+    if (!previousUsers.includes(message.Source) && message.Source !== req.session.sessionUser.Username) {
+      previousUsers.push(message.Source);
+    }
+    if (!previousUsers.includes(message.Destination) && message.Destination !== req.session.sessionUser.Username) {
+      previousUsers.push(message.Destination);
+    }
+    if (message.Source === message.Destination && !previousUsers.includes(message.Source)) {
+      previousUsers.push(message.Source);
+    }
+  });
+  res.render('messages', { users, previousUsers, sessionUser: req.session.sessionUser });
+});
+
 // render the page the contains the exchanged messages between 2 users
 router.get('/messages/:username', loggedOutMiddleware, express.urlencoded({ extended: true }), (req, res) => {
   const { username } = req.params;

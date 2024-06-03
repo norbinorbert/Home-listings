@@ -2,7 +2,7 @@ import pool from './db_setup.js';
 
 // get all messages
 export const getMessagesThatBelongToUser = async (username) => {
-  const query = 'SELECT * FROM Messages WHERE Source = ? OR Destination = ?';
+  const query = 'SELECT * FROM Messages WHERE Source = ? OR Destination = ? ORDER BY Date';
   const [messages] = await pool.query(query, [username, username]);
   return messages;
 };

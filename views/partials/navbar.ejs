@@ -1,14 +1,19 @@
 <div class="navbar">
   <span><a href="/">Main page</a></span>
+
   <% if (!locals.sessionUser) { %>
     <span>You are not logged in</span>
     <span><a href="/login">Login</a></span>
+
     <% } else if(locals.sessionUser.Role==='user' ) { %>
       <span><a href="/new_listing">New listing</a></span>
+      <span><a href="/messages">Messages</a></span>
       <span>Logged in as: <%=sessionUser.Username%></span>
       <span><a href="/logout">Logout</a></span>
+
       <% } else if (locals.sessionUser.Role==='admin' ){ %>
         <span><a href="/new_listing">New listing</a></span>
+        <span><a href="/messages">Messages</a></span>
         <span><a href="/userlist">Userlist</a></span>
         <span>Logged in as: <%=sessionUser.Username%> (admin)</span>
         <span><a href="/logout">Logout</a></span>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head.ejs', { title: 'Error' , script: 'load_messages.js' }) %>
+<%- include('partials/head.ejs', { title: 'Error' , script: 'get_send_messages.js' }) %>
 
     <body>
         <% if (!locals.sessionUser) { %>
@@ -8,6 +8,7 @@
                 <% } else { %>
                     <%- include('partials/navbar.ejs', {sessionUser}) %>
                         <% } %>
+
                             <div id="target-user">Conversation with
                                 <b>
                                     <%=target%>
