@@ -5,10 +5,9 @@ import * as dbListings from '../db/db_listings.js';
 import { loggedOutMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
-router.use(loggedOutMiddleware);
 
 // remove a listing and all images associated with it
-router.post('/delete_listing/[0-9]*', async (req, res) => {
+router.post('/delete_listing/[0-9]*', loggedOutMiddleware, async (req, res) => {
   const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
   const listing = await dbListings.getListingByID(listingID);
   if (!listing) {

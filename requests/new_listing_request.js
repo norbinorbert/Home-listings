@@ -3,7 +3,6 @@ import * as dbListings from '../db/db_listings.js';
 import { loggedOutMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
-router.use(loggedOutMiddleware);
 
 // input validation
 function isInvalidListing(req) {
@@ -23,7 +22,7 @@ function isInvalidListing(req) {
 }
 
 // check if form data is correct, then save it
-router.post('/new_listing', express.urlencoded({ extended: true }), async (req, res) => {
+router.post('/new_listing', loggedOutMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
   if (isInvalidListing(req.body)) {
     console.log('New listing was tried to be inserted, but data was invalid');
     res.status(400).render('new_listing', { message: 'Incorrect input data', sessionUser: req.session.sessionUser });
@@ -44,7 +43,7 @@ router.post('/new_listing', express.urlencoded({ extended: true }), async (req, 
 });
 
 // render the new listing form
-router.get('/new_listing', (req, res) => {
+router.get('/new_listing', loggedOutMiddleware, (req, res) => {
   res.render('new_listing', { message: '', sessionUser: req.session.sessionUser });
 });
 

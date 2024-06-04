@@ -4,10 +4,9 @@ import { loggedOutMiddleware } from '../middleware/login_status.js';
 import * as dbUsers from '../db/db_users.js';
 
 const router = express.Router();
-router.use(loggedOutMiddleware);
 
 // renders the page where user can edit their profile
-router.get('/edit_profile', async (req, res) => {
+router.get('/edit_profile', loggedOutMiddleware, async (req, res) => {
   const user = await dbUsers.getUserByName(req.session.sessionUser.Username);
   let message = '';
 
@@ -38,7 +37,7 @@ router.get('/edit_profile', async (req, res) => {
 });
 
 // changes a users name if possible
-router.post('/edit_username', express.urlencoded({ extended: true }), async (req, res) => {
+router.post('/edit_username', loggedOutMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
   const user = await dbUsers.getUserByName(req.session.sessionUser.Username);
   const newUsername = req.body.user;
   const { password } = req.body;
@@ -98,7 +97,7 @@ router.post('/edit_username', express.urlencoded({ extended: true }), async (req
 });
 
 // changes a users phone number
-router.post('/edit_phone', express.urlencoded({ extended: true }), async (req, res) => {
+router.post('/edit_phone', loggedOutMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
   const user = await dbUsers.getUserByName(req.session.sessionUser.Username);
   const { phone, password } = req.body;
   if (!phone || !password) {
@@ -158,7 +157,7 @@ router.post('/edit_phone', express.urlencoded({ extended: true }), async (req, r
 });
 
 // changes a users password
-router.post('/edit_password', express.urlencoded({ extended: true }), async (req, res) => {
+router.post('/edit_password', loggedOutMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
   const user = await dbUsers.getUserByName(req.session.sessionUser.Username);
   const oldPassword = req.body['old-password'];
   const { password } = req.body;

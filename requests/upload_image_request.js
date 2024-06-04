@@ -7,7 +7,6 @@ import * as dbUsers from '../db/db_users.js';
 import { loggedOutMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
-router.use(loggedOutMiddleware);
 
 // make a directory where we will upload the images
 const uploadDir = './public/Pictures';
@@ -45,7 +44,7 @@ const multerUpload = multer({
 const image = multerUpload.single('image-for-listing');
 
 // check if there were any errors when loading the file, then upload photo
-router.post('/upload_photo/[0-9]*', async (req, res) => {
+router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
   // if logged in user is not the owner of the listing, then don't upload photo
   const listingID = req.url.substring(req.url.lastIndexOf('/') + 1);
   const listing = await dbListings.getListingByID(listingID);
