@@ -16,7 +16,8 @@ function isInvalidListing(req) {
     parseFloat(req.area) &&
     parseInt(req.rooms, 10) &&
     parseFloat(req.price) &&
-    Date.parse(req.date)
+    Date.parse(req.date) &&
+    Date.parse(req.date) <= Date.parse(new Date().toISOString().slice(0, 10))
   );
 }
 
