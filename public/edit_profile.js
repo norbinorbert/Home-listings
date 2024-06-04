@@ -3,6 +3,7 @@ let phoneButton;
 let passwordButton;
 let activeForm;
 
+// creates the form to update username
 function usernameForm() {
   let form = document.getElementsByTagName('form')[0];
   if (form) {
@@ -46,6 +47,7 @@ function usernameForm() {
   activeForm.append(form);
 }
 
+// creates the form to update phone number
 function phoneForm() {
   let form = document.getElementsByTagName('form')[0];
   if (form) {
@@ -89,6 +91,7 @@ function phoneForm() {
   activeForm.append(form);
 }
 
+// creates the form to update password
 function passwordForm() {
   let form = document.getElementsByTagName('form')[0];
   if (form) {
@@ -151,6 +154,7 @@ window.onload = () => {
 
   activeForm = document.getElementById('active-form');
 
+  // each button will hide itself when pressed and display the form associated with it
   usernameButton.addEventListener('click', () => {
     usernameButton.style.visibility = 'hidden';
     phoneButton.style.visibility = 'visible';

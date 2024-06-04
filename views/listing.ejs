@@ -57,7 +57,13 @@
                                                                     day: 'numeric' }) %>
                                                             </td>
                                                             <td>
-                                                                <%= user.Username %>
+                                                                <% if (!locals.sessionUser) { %>
+                                                                    <%= user.Username %>
+                                                                        <% } else { %>
+                                                                            <a href="/messages/<%= user.Username %>">
+                                                                                <%= user.Username %>
+                                                                            </a>
+                                                                            <% } %>
                                                             </td>
                                                             <td>
                                                                 <%= user.Phone %>

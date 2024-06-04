@@ -66,9 +66,13 @@ router.post('/upload_photo/[0-9]*', loggedOutMiddleware, async (req, res) => {
         case 'BadMime': {
           const pictures = await dbPictures.getPicturesByListingID(listingID);
           const user = await dbUsers.getUserByName(listing.Username);
-          res
-            .status(400)
-            .render('listing', { listing, pictures, user, message: 'Please only upload png or jpeg images' });
+          res.status(400).render('listing', {
+            listing,
+            pictures,
+            user,
+            message: 'Please only upload png or jpeg images',
+            sessionUser: req.session.sessionUser,
+          });
           return;
         }
         case 'BadID': {

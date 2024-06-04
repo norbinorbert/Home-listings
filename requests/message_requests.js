@@ -29,9 +29,10 @@ router.get('/messages/:username', loggedOutMiddleware, express.urlencoded({ exte
   const { username } = req.params;
   const user = await dbUsers.getUserByName(username);
   if (!user) {
-    res
-      .status(404)
-      .render('error', { message: "User doesn't exist or has changed name. Please go back to the messages page" });
+    res.status(404).render('error', {
+      message: "User doesn't exist or has changed name. Please go back to the messages page",
+      sessionUser: req.session.sessionUser,
+    });
     return;
   }
   res.render('message_user', { sessionUser: req.session.sessionUser, target: username });
@@ -42,9 +43,10 @@ router.post('/send_message', loggedOutMiddleware, express.json(), async (req, re
   const { destination, message } = req.body;
   const user = await dbUsers.getUserByName(destination);
   if (!user) {
-    res
-      .status(404)
-      .render('error', { message: "User doesn't exist or has changed name. Please go back to the messages page" });
+    res.status(404).render('error', {
+      message: "User doesn't exist or has changed name. Please go back to the messages page",
+      sessionUser: req.session.sessionUser,
+    });
     return;
   }
   const source = req.session.sessionUser.Username;
