@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head.ejs', { title: 'Userlist' , script: 'userlist.js' }) %>
+<%- include('partials/head.ejs', { title: 'Userlist' , script: ['userlist.js'] }) %>
 
     <body>
         <% if (!locals.sessionUser) { %>

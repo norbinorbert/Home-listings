@@ -22,7 +22,8 @@ label {
   font-size: 20px;
 }
 
-.error {
+.error,
+#error {
   color: red;
 }
 
@@ -78,6 +79,10 @@ td.listing-link {
 
 td.listing-error {
   visibility: hidden;
+}
+
+td > textarea {
+  resize: none;
 }
 
 div#message-text {

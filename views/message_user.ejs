@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head.ejs', { title: 'Error' , script: 'get_send_messages.js' }) %>
+<%- include('partials/head.ejs', { title: 'Error' , script: ['get_send_messages.js'] }) %>
 
     <body>
         <% if (!locals.sessionUser) { %>

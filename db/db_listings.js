@@ -70,3 +70,9 @@ export const changeUsernamePart2 = async (newUsername) => {
   const query = 'UPDATE Listings SET Username = ? WHERE Username IS NULL';
   await pool.query(query, [newUsername]);
 };
+
+// changes a listings information
+export const editListingInfo = async (listingID, city, district, area, rooms, price) => {
+  const query = 'UPDATE Listings SET City = ?, District = ?, Area = ?, Rooms = ?, Price = ? WHERE ListingID = ?';
+  await pool.query(query, [city, district, area, rooms, price, listingID]);
+};

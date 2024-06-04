@@ -5,6 +5,8 @@
   </title>
   <link href="/style.css" rel="stylesheet" type="text/css">
   <% if (script) { %>
-    <script src="/<%=script%>"></script>
-    <% } %>
+    <% for(let i=0;i<script.length;i++) { %>
+      <script src="/<%=script[i]%>"></script>
+      <% } %>
+        <% } %>
 </head>

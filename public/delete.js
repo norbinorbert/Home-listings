@@ -24,7 +24,7 @@ async function deleteImage(event) {
 }
 
 // add event listeners to all buttons
-window.onload = () => {
+window.addEventListener('DOMContentLoaded', () => {
   const deleteButtons = document.getElementsByClassName('image-delete');
   for (let i = 0; i < deleteButtons.length; i++) {
     deleteButtons[i].addEventListener('click', deleteImage);
@@ -37,4 +37,4 @@ window.onload = () => {
       document.getElementById('listing-delete-form').submit();
     }
   });
-};
+});
