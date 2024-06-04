@@ -4,13 +4,14 @@ import * as dbUsers from '../db/db_users.js';
 import { loggedInMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
+router.use(loggedInMiddleware);
 
 // login page, only shown for users that are not logged in
-router.get('/login', loggedInMiddleware, (req, res) => {
+router.get('/login', (req, res) => {
   res.render('login', { message: '' });
 });
 
-router.post('/login', loggedInMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
+router.post('/login', express.urlencoded({ extended: true }), async (req, res) => {
   // validate form data
   if (!req.body.username) {
     res.status(400).render('login', { message: 'Please provide a username' });

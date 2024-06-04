@@ -4,9 +4,10 @@ import * as dbUsers from '../db/db_users.js';
 import * as dbMessages from '../db/db_messages.js';
 
 const router = express.Router();
+router.use(loggedOutMiddleware);
 
 // render main messages page, here user can choose which other user he wants to send a message to
-router.get('/messages', loggedOutMiddleware, async (req, res) => {
+router.get('/messages', async (req, res) => {
   const users = await dbUsers.getUsersByNamePrefix('%');
   const messages = await dbMessages.getMessagesThatBelongToUser(req.session.sessionUser.Username);
   const previousUsers = [];
@@ -25,7 +26,7 @@ router.get('/messages', loggedOutMiddleware, async (req, res) => {
 });
 
 // render the page the contains the exchanged messages between 2 users
-router.get('/messages/:username', loggedOutMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
+router.get('/messages/:username', express.urlencoded({ extended: true }), async (req, res) => {
   const { username } = req.params;
   const user = await dbUsers.getUserByName(username);
   if (!user) {
@@ -39,7 +40,7 @@ router.get('/messages/:username', loggedOutMiddleware, express.urlencoded({ exte
 });
 
 // insert new message into database
-router.post('/send_message', loggedOutMiddleware, express.json(), async (req, res) => {
+router.post('/send_message', express.json(), async (req, res) => {
   const { destination, message } = req.body;
   const user = await dbUsers.getUserByName(destination);
   if (!user) {
@@ -64,7 +65,7 @@ router.post('/send_message', loggedOutMiddleware, express.json(), async (req, re
 });
 
 // sends messages exchanged by 2 users
-router.get('/get_messages/:username', loggedOutMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
+router.get('/get_messages/:username', express.urlencoded({ extended: true }), async (req, res) => {
   const { username } = req.params;
   const user = await dbUsers.getUserByName(username);
   if (!user) {

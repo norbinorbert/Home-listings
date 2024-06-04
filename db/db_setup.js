@@ -49,15 +49,18 @@ try {
       FOREIGN KEY (Destination) REFERENCES Users(Username));`,
   );
 
-  // default admin user
-  await pool.query("DELETE FROM Users WHERE Username = 'admin'");
-  await pool.query(`INSERT INTO Users (Username, Password, Role) 
-                  VALUES ('admin', '$2b$10$DW7Dp0bzSBwX4KfNJP4lZOzPrG7cPfdtFANV9D1w7qFjCunGJmVJG', 'admin')`);
-
   console.log('Tables created successfully');
 } catch (err) {
   console.error(`Create table error: ${err}`);
   process.exit(1);
+}
+
+try {
+  // default admin user
+  await pool.query(`INSERT INTO Users (Username, Password, Role) 
+                  VALUES ('admin', '$2b$10$DW7Dp0bzSBwX4KfNJP4lZOzPrG7cPfdtFANV9D1w7qFjCunGJmVJG', 'admin')`);
+} catch (err) {
+  console.log('Cannot insert admin, it already exists');
 }
 
 export default pool;

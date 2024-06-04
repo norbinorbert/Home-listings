@@ -3,6 +3,7 @@ import { loggedOutMiddleware } from '../middleware/login_status.js';
 import * as dbListings from '../db/db_listings.js';
 
 const router = express.Router();
+router.use(loggedOutMiddleware);
 
 // check if given data is valid
 function areValidValues(req) {
@@ -21,7 +22,7 @@ function areValidValues(req) {
 }
 
 // changes a listings information if input data is valid
-router.post('/edit_listing', loggedOutMiddleware, express.json(), async (req, res) => {
+router.post('/edit_listing', express.json(), async (req, res) => {
   if (!areValidValues(req.body)) {
     res.status(400).send({ message: 'Incorrect input data' });
     return;

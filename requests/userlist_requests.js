@@ -3,26 +3,22 @@ import * as dbUsers from '../db/db_users.js';
 import { adminCheckMiddleware, loggedOutMiddleware } from '../middleware/login_status.js';
 
 const router = express.Router();
+router.use(loggedOutMiddleware);
+router.use(adminCheckMiddleware);
 
 // renders the userlist page
-router.get('/userlist', loggedOutMiddleware, adminCheckMiddleware, (req, res) => {
+router.get('/userlist', (req, res) => {
   res.render('userlist', { sessionUser: req.session.sessionUser });
 });
 
 // send the users that match the criteria
-router.get(
-  '/get_users_prefix',
-  loggedOutMiddleware,
-  adminCheckMiddleware,
-  express.urlencoded({ extended: true }),
-  async (req, res) => {
-    const searchResults = await dbUsers.getUsersByNamePrefix(req.query.prefix);
-    res.send({ searchResults });
-  },
-);
+router.get('/get_users_prefix', express.urlencoded({ extended: true }), async (req, res) => {
+  const searchResults = await dbUsers.getUsersByNamePrefix(req.query.prefix);
+  res.send({ searchResults });
+});
 
 // changes the role of the given user
-router.post('/change_role', loggedOutMiddleware, adminCheckMiddleware, express.json(), async (req, res) => {
+router.post('/change_role', express.json(), async (req, res) => {
   const { username } = req.body;
   const { role } = req.body;
   if (req.session.sessionUser.Username === username) {
