@@ -40,3 +40,21 @@ export const insertMessage = (sourceUsername, destinationUsername, message) => {
                 VALUES (?, ?, ?, now())`;
   return pool.query(query, [sourceUsername, destinationUsername, message]);
 };
+
+// changes a users name to NULL in the messages table, so we can update in users table
+export const changeUsernamePart1 = async (username) => {
+  let query = 'UPDATE Messages SET Source = NULL WHERE Source = ?';
+  await pool.query(query, [username]);
+
+  query = 'UPDATE Messages SET Destination = NULL WHERE Destination = ?';
+  await pool.query(query, [username]);
+};
+
+// changes the NULL values to the new username
+export const changeUsernamePart2 = async (newUsername) => {
+  let query = 'UPDATE Messages SET Source = ? WHERE Source IS NULL';
+  await pool.query(query, [newUsername]);
+
+  query = 'UPDATE Messages SET Destination = ? WHERE Destination IS NULL';
+  await pool.query(query, [newUsername]);
+};

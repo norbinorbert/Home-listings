@@ -127,3 +127,13 @@ div#messages > p.source {
   margin-left: 30%;
   margin-right: 5%;
 }
+
+table#profile-table {
+  margin-top: 10px;
+}
+
+#username-form,
+#phone-form,
+#password-form {
+  visibility: hidden;
+}

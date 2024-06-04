@@ -58,3 +58,15 @@ export const deleteListingByID = (listingID) => {
   const query = 'DELETE FROM Listings WHERE ListingID = ?';
   return pool.query(query, [listingID]);
 };
+
+// changes a users name to NULL in the listings table, so we can update in users table
+export const changeUsernamePart1 = async (username) => {
+  const query = 'UPDATE Listings SET Username = NULL WHERE Username = ?';
+  await pool.query(query, [username]);
+};
+
+// changes the NULL values to the new username
+export const changeUsernamePart2 = async (newUsername) => {
+  const query = 'UPDATE Listings SET Username = ? WHERE Username IS NULL';
+  await pool.query(query, [newUsername]);
+};

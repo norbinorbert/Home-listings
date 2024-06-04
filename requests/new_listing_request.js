@@ -31,6 +31,7 @@ router.post('/new_listing', loggedOutMiddleware, express.urlencoded({ extended: 
   try {
     await dbListings.insertListing(req.body);
   } catch (err) {
+    console.log(err);
     res
       .status(500)
       .render('new_listing', { message: 'Unexpected error, could not insert', sessionUser: req.session.sessionUser });

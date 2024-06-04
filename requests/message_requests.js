@@ -25,11 +25,13 @@ router.get('/messages', loggedOutMiddleware, async (req, res) => {
 });
 
 // render the page the contains the exchanged messages between 2 users
-router.get('/messages/:username', loggedOutMiddleware, express.urlencoded({ extended: true }), (req, res) => {
+router.get('/messages/:username', loggedOutMiddleware, express.urlencoded({ extended: true }), async (req, res) => {
   const { username } = req.params;
-  const user = dbUsers.getUserByName(username);
+  const user = await dbUsers.getUserByName(username);
   if (!user) {
-    res.status(404).render('error', { message: "User doesn't exist" });
+    res
+      .status(404)
+      .render('error', { message: "User doesn't exist or has changed name. Please go back to the messages page" });
     return;
   }
   res.render('message_user', { sessionUser: req.session.sessionUser, target: username });
@@ -38,9 +40,11 @@ router.get('/messages/:username', loggedOutMiddleware, express.urlencoded({ exte
 // insert new message into database
 router.post('/send_message', loggedOutMiddleware, express.json(), async (req, res) => {
   const { destination, message } = req.body;
-  const user = dbUsers.getUserByName(destination);
+  const user = await dbUsers.getUserByName(destination);
   if (!user) {
-    res.status(404).render('error', { message: "User doesn't exist" });
+    res
+      .status(404)
+      .render('error', { message: "User doesn't exist or has changed name. Please go back to the messages page" });
     return;
   }
   const source = req.session.sessionUser.Username;
@@ -52,6 +56,7 @@ router.post('/send_message', loggedOutMiddleware, express.json(), async (req, re
     }
     res.status(200).send({ message: 'Success sending message' });
   } catch (err) {
+    console.log(err);
     res.status(500).send({ message: 'Error sending message' });
   }
 });
@@ -61,7 +66,7 @@ router.get('/get_messages/:username', loggedOutMiddleware, express.urlencoded({ 
   const { username } = req.params;
   const user = await dbUsers.getUserByName(username);
   if (!user) {
-    res.status(404).send({ message: "User doesn't exist" });
+    res.status(404).send({ message: "User doesn't exist or has changed name. Please go back to the messages page" });
     return;
   }
   let messages;

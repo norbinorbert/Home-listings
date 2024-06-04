@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs', { title: 'Error' , script: 'edit_profile.js' }) %>
+
+    <body>
+        <% if (!locals.sessionUser) { %>
+            <%- include('partials/navbar.ejs') %>
+                <% } else { %>
+                    <%- include('partials/navbar.ejs', {sessionUser}) %>
+                        <% } %>
+
+                            <table id="profile-table">
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Phone number</th>
+                                </tr>
+                                <tr>
+                                    <td id="td-username">
+                                        <%=username%>
+                                    </td>
+                                    <td id="td-phone">
+                                        <%=phone%>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="buttons">
+                                <button id="username-change">Change username</button>
+                                <button id="phone-change">Change phone number</button>
+                                <button id="password-change">Change password</button>
+                            </div>
+
+                            <div id="active-form"></div>
+                            <% if(locals.errorMessage) { %>
+                                <p class="error">
+                                    <%=errorMessage%>
+                                </p>
+                                <% } %>
+                                    <% if(locals.message) { %>
+                                        <p class="message">
+                                            <%=message%>
+                                        </p>
+                                        <% } %>
+
+    </body>
+
+</html>

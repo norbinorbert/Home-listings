@@ -1,3 +1,5 @@
+import * as dbMessages from './db_messages.js';
+import * as dbListings from './db_listings.js';
 import pool from './db_setup.js';
 
 // get a single user
@@ -36,4 +38,36 @@ export const changeUserRole = (username, oldRole) => {
     newRole = 'user';
   }
   return pool.query(query, [newRole, username]);
+};
+
+// changes a users name, this affects the messages and listings table as well
+export const changeUsername = async (username, newUsername) => {
+  try {
+    await dbMessages.changeUsernamePart1(username);
+    await dbListings.changeUsernamePart1(username);
+
+    const query = 'UPDATE Users SET Username = ? WHERE Username = ?';
+    await pool.query(query, [newUsername, username]);
+
+    await dbMessages.changeUsernamePart2(newUsername);
+    await dbListings.changeUsernamePart2(newUsername);
+  } catch (err) {
+    // if something went wrong (for example, given username was too long), revert the changes
+    console.log(err);
+    await dbMessages.changeUsernamePart2(username);
+    await dbListings.changeUsernamePart2(username);
+    throw Error();
+  }
+};
+
+// changes a users phone number
+export const changePhoneNumber = (phone, username) => {
+  const query = 'UPDATE Users SET Phone = ? WHERE Username = ?';
+  return pool.query(query, [phone, username]);
+};
+
+// changes a users password
+export const changePassword = (password, username) => {
+  const query = 'UPDATE Users SET Password = ? WHERE Username = ?';
+  return pool.query(query, [password, username]);
 };

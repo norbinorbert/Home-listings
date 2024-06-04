@@ -50,6 +50,7 @@ router.post('/register', loggedInMiddleware, express.urlencoded({ extended: true
   try {
     await dbUsers.insertUser(req.body.username, req.body.phone, hashedPassword);
   } catch (err) {
+    console.log(err);
     res.status(500).render('register', { message: 'Unexpected error, register unsuccessful' });
     return;
   }
