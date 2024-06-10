@@ -6,7 +6,7 @@ const pool = await mysql.createPool({
   database: 'home_listings',
   host: 'localhost',
   port: 3306,
-  user: 'root',
+  user: 'webprog',
   password: 'admin',
 });
 
@@ -14,9 +14,9 @@ const pool = await mysql.createPool({
 try {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS Users(
-        UserID INT PRIMARY KEY AUTO_INCREMENT,
-        Username VARCHAR(50),
-        Phone VARCHAR(15));`,
+        Username VARCHAR(50) PRIMARY KEY,
+        Phone VARCHAR(15),
+        Password VARCHAR(300));`,
   );
   await pool.query(
     `CREATE TABLE IF NOT EXISTS Listings(
@@ -27,8 +27,8 @@ try {
         Rooms INT,
         Price DOUBLE,
         Date DATE,
-        UserID INT,
-        FOREIGN KEY (UserID) REFERENCES Users(UserID));`,
+        Username VARCHAR(50),
+        FOREIGN KEY (Username) REFERENCES Users(Username));`,
   );
   await pool.query(
     `CREATE TABLE IF NOT EXISTS Pictures(
@@ -37,6 +37,12 @@ try {
         FOREIGN KEY (ListingID) REFERENCES Listings(ListingID),
         PRIMARY KEY(ListingID, Picture));`,
   );
+
+  // temporary solution for an admin user
+  await pool.query("DELETE FROM Users WHERE Username = 'admin'");
+  await pool.query(`INSERT INTO Users (Username, Password) 
+                  VALUES ('admin', '$2b$10$DW7Dp0bzSBwX4KfNJP4lZOzPrG7cPfdtFANV9D1w7qFjCunGJmVJG')`);
+
   console.log('Tables created successfully');
 } catch (err) {
   console.error(`Create table error: ${err}`);

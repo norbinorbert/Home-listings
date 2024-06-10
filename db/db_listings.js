@@ -45,7 +45,7 @@ export const getListingWithFilters = (req) => {
 
 // inserting new listing
 export const insertListing = (req) => {
-  const query = `INSERT INTO Listings (City, District, Area, Rooms, Price, Date, UserID) 
+  const query = `INSERT INTO Listings (City, District, Area, Rooms, Price, Date, Username) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)`;
   return pool.query(query, [req.city, req.district, req.area, req.rooms, req.price, req.date, req.user]);
 };

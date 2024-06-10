@@ -2,9 +2,13 @@
 async function showMore(event) {
   const listingID = event.target.parentNode.id;
   const response = await fetch(`/get_listing/${listingID}`);
+  const errorTD = document.getElementById(`listing-error-${listingID}`);
   if (response.status !== 200) {
+    errorTD.innerText = "Couldn't get info about listing";
+    errorTD.style.visibility = 'visible';
     return;
   }
+  errorTD.style.visibility = 'hidden';
   const responseJson = await response.json();
   const { listing } = responseJson;
   document.getElementById(`listing-city-${listingID}`).innerText = listing.City;

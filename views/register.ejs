@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head.ejs', { title: 'Register' , script: false }) %>
+
+    <body>
+        <% if (!locals.sessionUser) { %>
+            <%- include('partials/navbar.ejs') %>
+                <% } else { %>
+                    <%- include('partials/navbar.ejs', {sessionUser}) %>
+                        <% } %>
+
+                            <form action="/register" method="post">
+                                <div>
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" id="username" required>
+                                </div>
+                                <div>
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="password" required>
+                                </div>
+                                <div>
+                                    <label for="password2">Confirm Password</label>
+                                    <input type="password" name="password2" id="password2" required>
+                                </div>
+                                <div>
+                                    <label for="phone">Phone number</label>
+                                    <input type="text" name="phone" id="phone" required>
+                                </div>
+                                <div>
+                                    <button type="submit">Register</button>
+                                </div>
+                            </form>
+                            <p>
+                                Already have an account?
+                                <a href="/login">Login</a>
+                            </p>
+                            <% if (message) { %>
+                                <p class="error">
+                                    <%= message %>
+                                </p>
+                                <% } %>
+
+    </body>
+
+</html>

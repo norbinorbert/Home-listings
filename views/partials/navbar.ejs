@@ -1,4 +1,11 @@
 <div class="navbar">
   <span><a href="/">Main page</a></span>
-  <span><a href="/new_listing">New listing</a></span>
+  <% if (!locals.sessionUser) { %>
+    <span>You are not logged in</span>
+    <span><a href="/login">Login</a></span>
+    <% } else { %>
+      <span><a href="/new_listing">New listing</a></span>
+      <span>Logged in as: <%=sessionUser%></span>
+      <span><a href="/logout">Logout</a></span>
+      <% } %>
 </div>
